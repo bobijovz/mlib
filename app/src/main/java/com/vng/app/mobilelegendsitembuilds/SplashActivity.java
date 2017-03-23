@@ -2,6 +2,7 @@ package com.vng.app.mobilelegendsitembuilds;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+import com.vng.app.mobilelegendsitembuilds.databinding.ActivitySplashBinding;
 
 import org.json.JSONObject;
 
@@ -33,22 +35,26 @@ import java.util.Locale;
 public class SplashActivity extends AppCompatActivity {
     final long ONE_MEGABYTE = 1024 * 1024;
 
+    private ActivitySplashBinding binder;
     private StorageReference storageRef;
     private DatabaseReference databaseRef;
     private SimpleDateFormat dateFormat;
     private FileOutputStream outputStream;
     private long ItemCountToSync = 0;
+    private float progressCount = 0;
+    private float itemPercent = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        binder = DataBindingUtil.setContentView(this,R.layout.activity_splash);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         databaseRef = database.getReference();
         dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-
+        binder.textviewProgressDetails.setText("Getting hero resource count.");
         databaseRef.child("hero").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -66,6 +72,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void getServerItemCount(){
+        binder.textviewProgressDetails.setText("Getting item resource count.");
         databaseRef.child("items").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -73,6 +80,9 @@ public class SplashActivity extends AppCompatActivity {
                     SyncData("item",data.getKey());
                 }
                 ItemCountToSync = ItemCountToSync + dataSnapshot.getChildrenCount();
+                itemPercent = 100.0f/ItemCountToSync ;
+                Log.d("PERCENT", String.valueOf(itemPercent));
+                Log.d("TOTAL_ITEM", String.valueOf(ItemCountToSync));
                 new InitialLoadData().execute();
             }
             @Override
@@ -84,6 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void SyncData(final String type, final String fileName){
         String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        binder.textviewProgressDetails.setText("Synchronizing "+type+" resources.");
         storageRef.child(type+"/".concat(temp)).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
@@ -95,8 +106,8 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
                     Log.d("FILE EXIST",fileName);
                     Log.d("META_LOC ".concat(fileName),dateFormat.format(getLastModDate(type,fileName)));
-                    ItemCountToSync--;
-                    Log.d("SYNC COUNT", String.valueOf(ItemCountToSync));
+                    binder.textviewProgressDetails.setText(type+" resource "+fileName+" already synced.");
+                    addProgress();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -110,6 +121,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public Date getLastModDate(String type, String fileName){
         String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+
         File file = new File(getFilesDir(), temp);
         if (file.exists()){
             return new Date(file.lastModified());
@@ -120,6 +132,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void saveImage(String type, final String fileName){
         final String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        binder.textviewProgressDetails.setText("Saving "+type+" resource "+temp);
         Log.d("SAVING",temp);
         storageRef.child(type+"/".concat(temp)).getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -129,7 +142,7 @@ public class SplashActivity extends AppCompatActivity {
                             outputStream = openFileOutput(temp, Context.MODE_PRIVATE);
                             outputStream.write(bytes);
                             outputStream.close();
-                            ItemCountToSync--;
+                            addProgress();
                         } catch (Exception e) {
                             e.printStackTrace();
                             //TODO FAILED SYNC
@@ -144,6 +157,12 @@ public class SplashActivity extends AppCompatActivity {
                 });
     }
 
+    public void addProgress(){
+        ItemCountToSync--;
+        progressCount = progressCount + itemPercent;
+        binder.textviewProgressPercentage.setText(String.valueOf((int)progressCount).concat("%"));
+    }
+
 
     private class InitialLoadData extends AsyncTask<String, Integer, String>{
         @Override
@@ -154,7 +173,7 @@ public class SplashActivity extends AppCompatActivity {
                    isSync = true;
                }
             }
-            return "Syncing success";
+            return "Sync success";
         }
 
         @Override
@@ -165,13 +184,13 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("Checking Sync items", String.valueOf(s));
-            Log.d("Checking Sync items", String.valueOf(ItemCountToSync));
+            Log.d("Checking Sync items", String.valueOf(progressCount));
             Log.d("Checking Sync items", "SHOULD BE DONE NOW");
-
+            binder.textviewProgressDetails.setText("Synchronization complete.");
+            SplashActivity.this.finish();
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(i);
-            finish();
+
         }
 
         @Override
