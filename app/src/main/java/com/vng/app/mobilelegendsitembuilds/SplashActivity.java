@@ -129,6 +129,7 @@ public class SplashActivity extends AppCompatActivity {
                             outputStream = openFileOutput(temp, Context.MODE_PRIVATE);
                             outputStream.write(bytes);
                             outputStream.close();
+                            ItemCountToSync--;
                         } catch (Exception e) {
                             e.printStackTrace();
                             //TODO FAILED SYNC
