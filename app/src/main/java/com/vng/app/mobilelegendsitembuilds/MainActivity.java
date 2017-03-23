@@ -1,13 +1,10 @@
 package com.vng.app.mobilelegendsitembuilds;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FirebaseAuth.AuthStateListener,
         GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<Status>{
+        ResultCallback<Status> {
 
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
@@ -141,8 +140,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.addAuthStateListener(this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        mAuth.removeAuthStateListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         mAuth.removeAuthStateListener(this);
     }
 
@@ -150,7 +161,7 @@ public class MainActivity extends AppCompatActivity
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
-            for (UserInfo data: user.getProviderData()) {
+            for (UserInfo data : user.getProviderData()) {
                 PROVIDER_ID = data.getProviderId() != null ? data.getProviderId() : PROVIDER_ID;
             }
         } else {
@@ -158,12 +169,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void signMeOut(){
+    public void signMeOut() {
         if (PROVIDER_ID.contentEquals("firebase")) {
             this.finish();
-        } else if (PROVIDER_ID.contentEquals("facebook.com")){
-            //TODO FB SIGNOUT
-        } else if(PROVIDER_ID.contentEquals("google.com")) {
+        } else if (PROVIDER_ID.contentEquals("facebook.com")) {
+            LoginManager.getInstance().logOut();
+            this.finish();
+        } else if (PROVIDER_ID.contentEquals("google.com")) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(this);
         }
     }
