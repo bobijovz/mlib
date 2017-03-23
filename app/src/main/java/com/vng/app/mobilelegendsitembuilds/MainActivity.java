@@ -1,10 +1,14 @@
 package com.vng.app.mobilelegendsitembuilds;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,8 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private String PROVIDER_ID = "firebase";
+    private TextView textName, textEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +80,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        textName = (TextView) headerView.findViewById(R.id.text_name);
+        textEmail = (TextView) headerView.findViewById(R.id.text_email);
         navigationView.setNavigationItemSelectedListener(this);
+        textName.setText(mAuth.getCurrentUser().getDisplayName());
+        textEmail.setText(mAuth.getCurrentUser().getEmail());
     }
 
     @Override
@@ -81,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
         }
     }
 
@@ -100,8 +112,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            mAuth.signOut();
+        if (id == R.id.action_exit) {
+            finish();
+
             return true;
         }
 
@@ -114,18 +127,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_item_builder) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_widget) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_social) {
 
         } else if (id == R.id.nav_share) {
+            ShareDialog shareDialog = new ShareDialog(this);
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("Hello Facebook")
+                    .setContentDescription(
+                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
+                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .build();
 
-        } else if (id == R.id.nav_send) {
-
+            shareDialog.show(linkContent);
+        } else if (id == R.id.nav_logout) {
+            mAuth.signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -166,6 +185,9 @@ public class MainActivity extends AppCompatActivity
             }
         } else {
             signMeOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -188,5 +210,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResult(@NonNull Status status) {
         this.finish();
+    }
+
+    private void switchFragment(Fragment fragment) {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.commit();
     }
 }

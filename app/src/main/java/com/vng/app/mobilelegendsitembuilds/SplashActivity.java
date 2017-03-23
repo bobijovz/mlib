@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,13 +22,9 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.vng.app.mobilelegendsitembuilds.databinding.ActivitySplashBinding;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -187,8 +183,10 @@ public class SplashActivity extends AppCompatActivity {
             Log.d("Checking Sync items", String.valueOf(progressCount));
             Log.d("Checking Sync items", "SHOULD BE DONE NOW");
             binder.textviewProgressDetails.setText("Synchronization complete.");
-            SplashActivity.this.finish();
+
+            finish();
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
 
         }
