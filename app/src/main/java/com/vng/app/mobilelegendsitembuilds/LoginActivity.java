@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (binder.loginProgress.isShown()) binder.loginProgress.setVisibility(View.GONE);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            Intent i = new Intent(LoginActivity.this, SplashActivity.class);
             startActivity(i);
         } else {
             // User is signed out

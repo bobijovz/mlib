@@ -32,7 +32,7 @@ import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
     final long ONE_MEGABYTE = 1024 * 1024;
-    private ArrayList<String> hero_list = new ArrayList<>();
+
     private StorageReference storageRef;
     private DatabaseReference databaseRef;
     private SimpleDateFormat dateFormat;
@@ -49,53 +49,67 @@ public class SplashActivity extends AppCompatActivity {
         databaseRef = database.getReference();
         dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
-        databaseRef.child("hero").addValueEventListener(new ValueEventListener() {
+        databaseRef.child("hero").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
-                    hero_list.add(data.getKey().replaceAll("\\W",""));
-                    SyncMe(data.getKey().replaceAll("\\W",""));
+                    SyncData("hero",data.getKey());
                 }
                 ItemCountToSync = dataSnapshot.getChildrenCount();
+                getServerItemCount();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO FAILED SYNC
+            }
+        });
+    }
+
+    public void getServerItemCount(){
+        databaseRef.child("items").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    SyncData("item",data.getKey());
+                }
+                ItemCountToSync = ItemCountToSync + dataSnapshot.getChildrenCount();
                 new InitialLoadData().execute();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                //TODO FAILED SYNC
             }
         });
-
-       // Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-       // startActivity(i);
-
     }
 
-    public void SyncMe(final String fileName){
-        String temp = fileName.concat(".png");
-        storageRef.child("hero/".concat(temp)).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+    public void SyncData(final String type, final String fileName){
+        String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        storageRef.child(type+"/".concat(temp)).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
                 String ServerModDate = dateFormat.format(new Date(storageMetadata.getUpdatedTimeMillis()));
-                String LocalModDate = getLastModDate(fileName) != null ? dateFormat.format(getLastModDate(fileName)) : null;
+                String LocalModDate = getLastModDate(type, fileName) != null ? dateFormat.format(getLastModDate(type,fileName)) : null;
                 if (LocalModDate == null || !ServerModDate.contentEquals(LocalModDate)){
                     Log.d("FILE DOESN'T EXIST",fileName);
-                    saveImage(fileName);
+                    saveImage(type,fileName);
                 } else {
                     Log.d("FILE EXIST",fileName);
-                    Log.d("META_LOC".concat(fileName),dateFormat.format(getLastModDate(fileName)));
+                    Log.d("META_LOC ".concat(fileName),dateFormat.format(getLastModDate(type,fileName)));
                     ItemCountToSync--;
+                    Log.d("SYNC COUNT", String.valueOf(ItemCountToSync));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Log.e("STORAGE_METADATA",exception.getMessage());
+                Log.e("STORAGE_METADATA "+fileName,exception.getMessage());
+                //TODO FAILED SYNC
             }
         });
     }
 
-    public Date getLastModDate(String fileName){
-        String temp = fileName.concat(".png");
+    public Date getLastModDate(String type, String fileName){
+        String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
         File file = new File(getFilesDir(), temp);
         if (file.exists()){
             return new Date(file.lastModified());
@@ -104,10 +118,10 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    public void saveImage(final String fileName){
-        final String temp = fileName.concat(".png");
+    public void saveImage(String type, final String fileName){
+        final String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
         Log.d("SAVING",temp);
-        storageRef.child("hero/".concat(temp)).getBytes(ONE_MEGABYTE)
+        storageRef.child(type+"/".concat(temp)).getBytes(ONE_MEGABYTE)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
                     public void onSuccess(byte[] bytes) {
@@ -117,29 +131,29 @@ public class SplashActivity extends AppCompatActivity {
                             outputStream.close();
                         } catch (Exception e) {
                             e.printStackTrace();
+                            //TODO FAILED SYNC
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        //TODO FAILED SYNC
                     }
                 });
     }
 
 
-    private class InitialLoadData extends AsyncTask<String, Integer, Boolean>{
+    private class InitialLoadData extends AsyncTask<String, Integer, String>{
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected String doInBackground(String... strings) {
             Boolean isSync = false;
             while(!isSync){
                if (ItemCountToSync == 0){
                    isSync = true;
-                   return true;
                }
             }
-            return null;
+            return "Syncing success";
         }
 
         @Override
@@ -148,10 +162,15 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean s) {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d("Checking Sync items", String.valueOf(s));
             Log.d("Checking Sync items", String.valueOf(ItemCountToSync));
+            Log.d("Checking Sync items", "SHOULD BE DONE NOW");
+
+            Intent i = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
         }
 
         @Override
