@@ -1,49 +1,76 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.vng.app.mobilelegendsitembuilds.LoginActivity">
 
-            <LinearLayout
-                android:id="@+id/email_login_form"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/email_login_form"
+            android:layout_below="@+id/login_progress"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@color/colorAccent" />
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/anonymous_sign_in_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="100dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/button_selector"
+                android:text="SIGN IN ANONYMOUSLY"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+            
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:buttonSize="icon_only"
+                app:colorScheme="auto" />
 
-                    <Button
-                        android:id="@+id/fb_sign_in_button"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Facebook SignIn"
-                        android:textStyle="bold" />
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp" />
 
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/google_sign_in_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
-                <Button
-                    android:id="@+id/anonymous_sign_in_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Anonymous Sign in"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/login_progress"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            android:layout_centerInParent="true"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 </layout>
