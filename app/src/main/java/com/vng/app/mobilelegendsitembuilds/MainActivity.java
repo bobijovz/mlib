@@ -1,11 +1,14 @@
 package com.vng.app.mobilelegendsitembuilds;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +20,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -129,10 +134,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_social) {
 
         } else if (id == R.id.nav_share) {
+            ShareDialog shareDialog = new ShareDialog(this);
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("Hello Facebook")
+                    .setContentDescription(
+                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
+                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .build();
 
+            shareDialog.show(linkContent);
         } else if (id == R.id.nav_logout) {
             mAuth.signOut();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -198,5 +210,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResult(@NonNull Status status) {
         this.finish();
+    }
+
+    private void switchFragment(Fragment fragment) {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.commit();
     }
 }
