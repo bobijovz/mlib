@@ -1,5 +1,6 @@
 package com.vng.app.mobilelegendsitembuilds;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private String PROVIDER_ID = "firebase";
+    private TextView textName, textEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        textName = (TextView) headerView.findViewById(R.id.text_name);
+        textEmail = (TextView) headerView.findViewById(R.id.text_email);
         navigationView.setNavigationItemSelectedListener(this);
+        textName.setText(mAuth.getCurrentUser().getDisplayName());
+        textEmail.setText(mAuth.getCurrentUser().getEmail());
     }
 
     @Override
@@ -81,7 +89,6 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
         }
     }
 
@@ -100,8 +107,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            mAuth.signOut();
+        if (id == R.id.action_exit) {
+            finish();
+
             return true;
         }
 
@@ -114,17 +122,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_item_builder) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_widget) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_social) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            mAuth.signOut();
 
         }
 
@@ -166,6 +173,9 @@ public class MainActivity extends AppCompatActivity
             }
         } else {
             signMeOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
