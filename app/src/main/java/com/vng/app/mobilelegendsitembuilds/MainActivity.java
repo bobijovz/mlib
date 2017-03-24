@@ -45,6 +45,7 @@ import com.vng.app.mobilelegendsitembuilds.model.Hero;
 import com.vng.app.mobilelegendsitembuilds.model.Item;
 
 import java.util.ArrayList;
+import com.vng.app.mobilelegendsitembuilds.service.FloatingViewService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity
         ResultCallback<Status> {
 
     private FirebaseAuth mAuth;
-
     private GoogleApiClient mGoogleApiClient;
     private String PROVIDER_ID = "firebase";
     private TextView textName, textEmail;
@@ -86,8 +86,14 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Item Widget Initialized", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                stopService(new Intent(MainActivity.this, FloatingViewService.class));
+                            }
+                        }).show();
+                startService(new Intent(MainActivity.this, FloatingViewService.class));
             }
         });
 
