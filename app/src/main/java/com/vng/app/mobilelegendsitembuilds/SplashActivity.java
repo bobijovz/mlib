@@ -21,10 +21,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.vng.app.mobilelegendsitembuilds.databinding.ActivitySplashBinding;
+import com.vng.app.mobilelegendsitembuilds.model.Hero;
+import com.vng.app.mobilelegendsitembuilds.model.Item;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -39,6 +42,8 @@ public class SplashActivity extends AppCompatActivity {
     private long ItemCountToSync = 0;
     private float progressCount = 0;
     private float itemPercent = 0;
+    private ArrayList<Hero> heros = new ArrayList<Hero>();
+    private ArrayList<Item> items = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,12 @@ public class SplashActivity extends AppCompatActivity {
         databaseRef.child("hero").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     SyncData("hero",data.getKey());
+                    Hero temp = data.getValue(Hero.class);
+                    temp.setName(data.getKey());
+                    heros.add(temp);
                 }
                 ItemCountToSync = dataSnapshot.getChildrenCount();
                 getServerItemCount();
@@ -74,6 +83,9 @@ public class SplashActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     SyncData("item",data.getKey());
+                    Item temp = data.getValue(Item.class);
+                    temp.setName(data.getKey());
+                    items.add(temp);
                 }
                 ItemCountToSync = ItemCountToSync + dataSnapshot.getChildrenCount();
                 itemPercent = 100.0f/ItemCountToSync ;
@@ -186,6 +198,8 @@ public class SplashActivity extends AppCompatActivity {
 
             finish();
             Intent i = new Intent(SplashActivity.this, MainActivity.class);
+            i.putParcelableArrayListExtra("HERO_LIST",heros);
+            i.putParcelableArrayListExtra("ITEMS",items);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
 

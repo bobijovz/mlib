@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +32,19 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
 import com.vng.app.mobilelegendsitembuilds.fragment.ItemBuilderFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.ShareBuildFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.WidgetFragment;
+import com.vng.app.mobilelegendsitembuilds.model.Hero;
+import com.vng.app.mobilelegendsitembuilds.model.Item;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -42,17 +53,21 @@ public class MainActivity extends AppCompatActivity
         ResultCallback<Status> {
 
     private FirebaseAuth mAuth;
+
     private GoogleApiClient mGoogleApiClient;
     private String PROVIDER_ID = "firebase";
     private TextView textName, textEmail;
+    private ArrayList<Hero> heros = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        heros = getIntent().getParcelableArrayListExtra("HERO_LIST");
+        items = getIntent().getParcelableArrayListExtra("ITEMS");
 
         mAuth = FirebaseAuth.getInstance();
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -89,6 +104,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         textName.setText(mAuth.getCurrentUser().getDisplayName());
         textEmail.setText(mAuth.getCurrentUser().getEmail());
+
+        switchFragment(new ItemBuilderFragment().newInstance(heros,items));
+
     }
 
     /*@Override
@@ -132,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_item_builder) {
-            switchFragment(new ItemBuilderFragment());
+            switchFragment(new ItemBuilderFragment().newInstance(heros,items));
         } else if (id == R.id.nav_widget) {
             switchFragment(new WidgetFragment());
         } else if (id == R.id.nav_build_sharing) {
