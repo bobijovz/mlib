@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void SyncData(final String type, final String fileName){
-        String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        String temp = fileName.concat(".png");
         binder.textviewProgressDetails.setText("Synchronizing "+type+" resources.");
         storageRef.child(type+"/".concat(temp)).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
@@ -128,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public Date getLastModDate(String type, String fileName){
-        String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        String temp = fileName.concat(".png");
 
         File file = new File(getFilesDir(), temp);
         if (file.exists()){
@@ -139,7 +139,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void saveImage(String type, final String fileName){
-        final String temp = fileName.concat(type.contentEquals("item") ? ".jpg":".png");
+        final String temp = fileName.concat(".png");
         binder.textviewProgressDetails.setText("Saving "+type+" resource "+temp);
         Log.d("SAVING",temp);
         storageRef.child(type+"/".concat(temp)).getBytes(ONE_MEGABYTE)

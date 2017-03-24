@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +61,13 @@ public class ItemBuilderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (heros != null) {
+        if (items != null) {
             ImageAdapter adapter = new ImageAdapter(getContext());
-            adapter.setHeros(heros);
+            adapter.setItems(items);
             binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
             binder.recyclerviewHeroList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-
+            Log.d("SIZE", String.valueOf(adapter.getItemCount()));
         }
     }
 }

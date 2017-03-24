@@ -33,20 +33,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         this.mContext = mContext;
     }
 
-    public void setHeros( ArrayList<Hero> heros){
+    public void setHeros(ArrayList<Hero> heros) {
         this.heros = heros;
     }
 
-    public void setItems(ArrayList<Item> items){
+    public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
-
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemGridLayoutBinding binder =
-                DataBindingUtil.inflate(LayoutInflater.from(mContext),R.layout.item_grid_layout,parent,false);
+                DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.item_grid_layout, parent, false);
 
 
         return new ViewHolder(binder.getRoot());
@@ -56,14 +55,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemGridLayoutBinding binder = DataBindingUtil.getBinding(holder.itemView);
         if (heros != null)
-        Picasso.with(mContext)
-                .load(new File(mContext.getFilesDir(),heros.get(position).getName().concat(".png")))
-
-                .into(binder.imageviewItem);
-        else if (items != null)
             Picasso.with(mContext)
-                    .load(new File(mContext.getFilesDir(),items.get(position).getName().concat(".jpg")))
-                    .fit()
+                    .load(new File(mContext.getFilesDir(), heros.get(position).getName().concat(".png")))
+                    .into(binder.imageviewItem);
+        else if(items != null)
+            Picasso.with(mContext)
+                    .load(new File(mContext.getFilesDir(), items.get(position).getName().concat(".png")))
                     .into(binder.imageviewItem);
     }
 
@@ -72,7 +69,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return heros != null ? heros.size() : items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
