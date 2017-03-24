@@ -31,6 +31,9 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.vng.app.mobilelegendsitembuilds.fragment.ItemBuilderFragment;
+import com.vng.app.mobilelegendsitembuilds.fragment.ShareBuildFragment;
+import com.vng.app.mobilelegendsitembuilds.fragment.WidgetFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            super.onBackPressed();
         }
     }
 
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_exit) {
             System.exit(0);
+            finish();
             return true;
         }
 
@@ -127,21 +132,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_item_builder) {
-            // Handle the camera action
+            switchFragment(new ItemBuilderFragment());
         } else if (id == R.id.nav_widget) {
-
-        } else if (id == R.id.nav_social) {
-
+            switchFragment(new WidgetFragment());
+        } else if (id == R.id.nav_build_sharing) {
+            switchFragment(new ShareBuildFragment());
         } else if (id == R.id.nav_share) {
             ShareDialog shareDialog = new ShareDialog(this);
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Hello Facebook")
+                    .setContentTitle("Mobile Legends : Bang bang Item Builds")
                     .setContentDescription(
-                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
+                            "Check Mobile Legends Item Builds on Google Play!")
                     .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
                     .build();
-
             shareDialog.show(linkContent);
+
         } else if (id == R.id.nav_logout) {
             mAuth.signOut();
         }

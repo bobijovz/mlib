@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_widgets_black_24dp"
             android:title="Widget" />
         <item
-            android:id="@+id/nav_social"
+            android:id="@+id/nav_build_sharing"
             android:icon="@drawable/ic_public_black_24dp"
-            android:title="Share your Build" />
+            android:title="Build Sharing" />
     </group>
 
     <item android:title="Communicate">
