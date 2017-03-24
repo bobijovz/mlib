@@ -36,7 +36,7 @@ public class ItemBuilderFragment extends Fragment {
         ItemBuilderFragment fragment = new ItemBuilderFragment();
         Bundle b = new Bundle();
         b.putParcelableArrayList("HERO_LIST", heros);
-        b.putParcelableArrayList("TTEMS", items);
+        b.putParcelableArrayList("ITEMS", items);
         fragment.setArguments(b);
         return fragment;
     }
@@ -61,13 +61,15 @@ public class ItemBuilderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (items != null) {
+
             ImageAdapter adapter = new ImageAdapter(getContext());
             adapter.setItems(items);
+            //adapter.setHeros(heros);
+
             binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
             binder.recyclerviewHeroList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             Log.d("SIZE", String.valueOf(adapter.getItemCount()));
-        }
+
     }
 }

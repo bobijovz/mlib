@@ -54,11 +54,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemGridLayoutBinding binder = DataBindingUtil.getBinding(holder.itemView);
-        if (heros != null)
+
+        if (heros != null && heros.size() > 0)
             Picasso.with(mContext)
                     .load(new File(mContext.getFilesDir(), heros.get(position).getName().concat(".png")))
                     .into(binder.imageviewItem);
-        else if(items != null)
+        else
             Picasso.with(mContext)
                     .load(new File(mContext.getFilesDir(), items.get(position).getName().concat(".png")))
                     .into(binder.imageviewItem);
@@ -66,7 +67,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return heros != null ? heros.size() : items.size();
+        return heros != null && heros.size() > 0 ? heros.size() : items.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
