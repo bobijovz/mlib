@@ -34,6 +34,7 @@ import com.google.firebase.auth.UserInfo;
 import com.vng.app.mobilelegendsitembuilds.fragment.ItemBuilderFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.ShareBuildFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.WidgetFragment;
+import com.vng.app.mobilelegendsitembuilds.service.FloatingViewService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -71,8 +72,14 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Item Widget Initialized", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                stopService(new Intent(MainActivity.this, FloatingViewService.class));
+                            }
+                        }).show();
+                startService(new Intent(MainActivity.this, FloatingViewService.class));
             }
         });
 
