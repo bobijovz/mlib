@@ -29,6 +29,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.vng.app.mobilelegendsitembuilds.databinding.ActivityLoginBinding;
 
 //TODO: when releasing, add release key for facebook login
@@ -197,15 +198,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        if (binder.loginProgress.isShown()) binder.loginProgress.setVisibility(View.GONE);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
+            for (UserInfo data : user.getProviderData()) {
+                Log.d("AUTH CHANGE CHECKING",data.getProviderId() != null ? data.getProviderId() : "");
+            }
             Intent i = new Intent(LoginActivity.this, SplashActivity.class);
             startActivity(i);
+            finish();
         } else {
-            // User is signed out
-            Log.d("", "onAuthStateChanged:signed_out");
+            Log.d("AUTH CHANGE LOGGED OUT", "onAuthStateChanged:signed_out");
         }
+        if (binder.loginProgress.isShown()) binder.loginProgress.setVisibility(View.GONE);
     }
 
     @Override

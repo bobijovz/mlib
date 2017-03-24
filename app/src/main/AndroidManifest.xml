@@ -34,7 +34,8 @@
         <activity
             android:name=".SplashActivity"
             android:label="Synchronizing Data"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance"/>
 
 
         <provider
