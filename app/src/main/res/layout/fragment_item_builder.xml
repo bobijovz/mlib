@@ -1,16 +1,120 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_hero_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/tv_hero_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:paddingLeft="120dp"
+                android:paddingTop="30dp"
+                android:text="Title test"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_image_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="4dp"
+                app:cardPreventCornerOverlap="true">
+
+                <ImageView
+                    android:id="@+id/imageview_item"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_hero_name"
+                android:layout_toEndOf="@id/cardview_image_container"
+                android:layout_toRightOf="@id/cardview_image_container"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_hero_name"
+                    android:text="Role"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_specialty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Specialty"
+                    android:textStyle="italic"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_health"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardview_image_container"
+                android:text="1000"
+                android:drawableLeft="@drawable/shape_red_circle"
+                android:drawableStart="@drawable/shape_red_circle"
+                android:drawablePadding="5dp"
+                android:padding="2dp"/>
+            <TextView
+                android:id="@+id/tv_mana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardview_image_container"
+                android:layout_toRightOf="@id/tv_health"
+                android:text="1000"
+                android:drawableLeft="@drawable/shape_blue_circle"
+                android:drawableStart="@drawable/shape_blue_circle"
+                android:drawablePadding="5dp"
+                android:padding="2dp"/>
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 </layout>
+
+   <!-- ability_crit_rate:
+    0
+    armor:
+    21
+    attack_speed:
+    8.5
+    basic_attack_crit_rate:
+    0
+    hp:
+    2811
+    hp_regen:
+    42
+    magic_power:
+    0
+    magic_resistance:
+    10
+    mana:
+    422
+    mana_regen:
+    12
+    movement_speed:
+    2.6
+    physical_attack:
+    115
+    role:
+    "tank"
+    close
+    specialty:
+    "Charge/Crowd Control"
+-->

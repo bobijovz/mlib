@@ -2,11 +2,13 @@ package com.vng.app.mobilelegendsitembuilds;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +35,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
+import com.vng.app.mobilelegendsitembuilds.fragment.HeroListFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.ItemBuilderFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.ShareBuildFragment;
 import com.vng.app.mobilelegendsitembuilds.fragment.WidgetFragment;
@@ -51,7 +50,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FirebaseAuth.AuthStateListener,
         GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<Status> {
+        ResultCallback<Status>,
+        ImageAdapter.ImageAdapterListener{
 
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private TextView textName, textEmail;
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
+    private HeroListFragment heroFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +111,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         textName.setText(mAuth.getCurrentUser().getDisplayName());
         textEmail.setText(mAuth.getCurrentUser().getEmail());
-
-        switchFragment(new ItemBuilderFragment().newInstance(heros,items));
+        heroFrag = new HeroListFragment().newInstance(heros,items);
+        switchFragment(heroFrag);
+        heroFrag.setAdapterListener(this);
 
     }
 
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_item_builder) {
-            switchFragment(new ItemBuilderFragment().newInstance(heros,items));
+            switchFragment(heroFrag);
         } else if (id == R.id.nav_widget) {
             switchFragment(new WidgetFragment());
         } else if (id == R.id.nav_build_sharing) {
@@ -245,5 +247,36 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.content_main, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onHeroPick(Bundle hero, View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition changeTransform = TransitionInflater.from(this).
+                    inflateTransition(R.transition.change_image_transform);
+            Transition explodeTransform = TransitionInflater.from(this).
+                    inflateTransition(android.R.transition.explode);
+
+            // Setup exit transition on first fragment
+            heroFrag.setSharedElementReturnTransition(changeTransform);
+            heroFrag.setExitTransition(explodeTransform);
+
+            ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(hero);
+           /* ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(this, view, "profile");
+            builderFragment.setArguments(options.toBundle());*/
+            // Setup enter transition on second fragment
+            builderFragment.setSharedElementEnterTransition(changeTransform);
+            builderFragment.setEnterTransition(explodeTransform);
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_main, builderFragment)
+                    .addToBackStack("item_builder")
+                    .addSharedElement(view, "hero_image");
+            // Apply the transaction
+            ft.commit();
+        } else {
+            //switchFragment();
+        }
     }
 }

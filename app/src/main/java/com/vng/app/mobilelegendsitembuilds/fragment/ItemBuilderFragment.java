@@ -1,43 +1,37 @@
 package com.vng.app.mobilelegendsitembuilds.fragment;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
-import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
 import com.vng.app.mobilelegendsitembuilds.databinding.FragmentItemBuilderBinding;
 import com.vng.app.mobilelegendsitembuilds.model.Hero;
-import com.vng.app.mobilelegendsitembuilds.model.Item;
 
-import java.util.ArrayList;
-
+import java.io.File;
 
 /**
- * Created by Nico on 3/24/2017.
+ * Created by jovijovs on 3/27/2017.
  */
 
 public class ItemBuilderFragment extends Fragment {
 
+    private Hero hero;
     private FragmentItemBuilderBinding binder;
-    private ArrayList<Hero> heros = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
+    private String transition_name = "";
 
+    public ItemBuilderFragment() {
+    }
 
-    public ItemBuilderFragment newInstance(ArrayList<Hero> heros, ArrayList<Item> items) {
+    public ItemBuilderFragment newInstance(Bundle bundle) {
         ItemBuilderFragment fragment = new ItemBuilderFragment();
-        Bundle b = new Bundle();
-        b.putParcelableArrayList("HERO_LIST", heros);
-        b.putParcelableArrayList("ITEMS", items);
-        fragment.setArguments(b);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -45,8 +39,8 @@ public class ItemBuilderFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            heros = getArguments().getParcelableArrayList("HERO_LIST");
-            items = getArguments().getParcelableArrayList("ITEMS");
+            hero = getArguments().getParcelable("HERO");
+            transition_name = getArguments().getString("transitionName");
         }
     }
 
@@ -54,6 +48,19 @@ public class ItemBuilderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_item_builder, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binder.imageviewItem.setTransitionName(transition_name);
+        }
+        binder.tvHeroName.setText(hero.getName());
+        binder.tvRole.setText(hero.getRole());
+        binder.tvSpecialty.setText(hero.getSpecialty());
+        binder.tvHealth.setText(String.valueOf(hero.getHp()));
+        binder.tvMana.setText(String.valueOf(hero.getMana()));
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), hero.getName().concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageviewItem);
 
         return binder.getRoot();
     }
@@ -61,15 +68,5 @@ public class ItemBuilderFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-            ImageAdapter adapter = new ImageAdapter(getContext());
-            adapter.setItems(items);
-            //adapter.setHeros(heros);
-
-            binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
-            binder.recyclerviewHeroList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            Log.d("SIZE", String.valueOf(adapter.getItemCount()));
-
     }
 }
