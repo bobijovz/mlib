@@ -52,7 +52,7 @@ public class ItemDialog extends DialogFragment {
             adapter = new ImageAdapter(getActivity().getApplicationContext());
             adapter.setItems(items);
             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_item_list);
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 6));
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             adapter.setListener(listener);
