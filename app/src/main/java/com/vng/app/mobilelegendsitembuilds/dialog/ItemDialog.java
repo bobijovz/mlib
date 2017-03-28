@@ -28,8 +28,10 @@ public class ItemDialog extends DialogFragment {
     private DialogItemBinding binder;
     private ArrayList<Item> items = new ArrayList<>();
     private ImageAdapter adapter;
+    private ImageAdapter.ImageAdapterListener listener;
     private RecyclerView recyclerView;
     private View view;
+
 
 
     @Nullable
@@ -53,6 +55,7 @@ public class ItemDialog extends DialogFragment {
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            adapter.setListener(listener);
         }
     }
 
@@ -66,5 +69,9 @@ public class ItemDialog extends DialogFragment {
         getDialog().getWindow().setDimAmount(0.8f);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimationFromBottom;
+    }
+
+    public void setAdapterListener(ImageAdapter.ImageAdapterListener listener) {
+        this.listener = listener;
     }
 }

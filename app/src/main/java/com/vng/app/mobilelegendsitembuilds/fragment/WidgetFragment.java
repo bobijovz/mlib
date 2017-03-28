@@ -46,7 +46,6 @@ public class WidgetFragment extends Fragment implements ImageAdapter.OnItemClick
     SharedPreferences sharedpreferences;
     private FragmentWidgetBinding binder;
     private ArrayList<Item> items = new ArrayList<>();
-    private ImageAdapter.OnItemClickListener listener;
 
     public WidgetFragment newInstance(ArrayList<Item> items) {
         WidgetFragment fragment = new WidgetFragment();
@@ -76,7 +75,6 @@ public class WidgetFragment extends Fragment implements ImageAdapter.OnItemClick
 
     private void initializeView() {
 
-        listener = this;
         sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         binder.textReservedBuild1.setText(sharedpreferences.getString(BuildOne, "Reserved Build One"));
         binder.textReservedBuild2.setText(sharedpreferences.getString(BuildTwo, "Reserved Build Two"));
@@ -206,7 +204,9 @@ public class WidgetFragment extends Fragment implements ImageAdapter.OnItemClick
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("items", items);
                 ItemDialog dialog = new ItemDialog();
+                dialog.setArguments(bundle);
                 dialog.show(getActivity().getFragmentManager(), "Item Dialog");
+
             }
         });
 

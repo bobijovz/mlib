@@ -112,7 +112,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 Toast.makeText(mContext, items.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
 //                Bundle bundle = new Bundle();
 //                bundle.putParcelable("ITEM", items.get(getAdapterPosition()));
-                onItemClickListener.onItemPick(getAdapterPosition());
+//                onItemClickListener.onItemPick(getAdapterPosition());
             }
 
         }
