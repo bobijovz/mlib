@@ -28,15 +28,13 @@ import java.util.ArrayList;
  * Created by Nico on 3/24/2017.
  */
 
-public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdapterListener {
+public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapterListener {
 
     private FragmentHeroListBinding binder;
     private HeroListFragment fragment;
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private ImageAdapter adapter;
-    private ImageAdapter.ImageAdapterListener listener;
-
 
 
     public HeroListFragment newInstance(ArrayList<Hero> heros, ArrayList<Item> items) {
@@ -47,10 +45,6 @@ public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdap
         fragment.setArguments(b);
         return fragment;
     }
-
-   /* public void setAdapterListener(ImageAdapter.ImageAdapterListener listener){
-        this.listener = listener;
-    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,14 +68,12 @@ public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdap
         super.onViewCreated(view, savedInstanceState);
 
             adapter = new ImageAdapter(getContext());
-            //adapter.setItems(items);
             adapter.setHeros(heros);
 
             binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
             binder.recyclerviewHeroList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             adapter.setListener(this);
-
 
     }
 
@@ -99,9 +91,6 @@ public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdap
             this.setExitTransition(explodeTransform);
 
             ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(data);
-           /* ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(this, view, "profile");
-            builderFragment.setArguments(options.toBundle());*/
             // Setup enter transition on second fragment
             builderFragment.setSharedElementEnterTransition(changeTransform);
             builderFragment.setEnterTransition(explodeTransform);
@@ -110,10 +99,11 @@ public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdap
                     .replace(R.id.content_main, builderFragment)
                     .addToBackStack("item_builder")
                     .addSharedElement(view, "hero_image");
-            // Apply the transaction
             ft.commit();
         } else {
-            //switchFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_main, new ItemBuilderFragment().newInstance(data));
+            transaction.commit();
         }
     }
 }

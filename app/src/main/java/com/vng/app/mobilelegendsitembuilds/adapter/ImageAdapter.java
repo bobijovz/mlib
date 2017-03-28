@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.gms.actions.ItemListIntents;
 import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
 
@@ -28,18 +29,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private Context mContext;
-    private ImageAdapterListener listener;
+    private HeroAdapterListener heroListener;
+    private ItemAdapterListener itemListener;
 
-    public interface ImageAdapterListener {
+    public interface HeroAdapterListener {
         void onHeroPick(Bundle data, View view);
     }
+
+    public interface ItemAdapterListener {
+        void onItemPick(Item item);
+    }
+
 
     public ImageAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setListener(ImageAdapterListener listener) {
-        this.listener = listener;
+    public void setListener(HeroAdapterListener heroListener) {
+        this.heroListener = heroListener;
+    }
+
+    public void setListener(ItemAdapterListener itemListener) {
+        this.itemListener = itemListener;
     }
 
     public void setHeros(ArrayList<Hero> heros) {
@@ -63,7 +74,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemHeroGridLayoutBinding binder = DataBindingUtil.getBinding(holder.itemView);
-        String path = heros != null && heros.size() > 0 ? heros.get(position).getName().concat(".png") : items.get(position).getName().concat(".png");
+        String path = isHero() ? heros.get(position).getName().concat(".png") : items.get(position).getName().concat(".png");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             holder.img.setTransitionName("hero_image" + position);
@@ -80,11 +91,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return heros != null && heros.size() > 0 ? heros.size() : items.size();
     }
 
+    private Boolean isHero(){
+        return heros != null && heros.size() > 0;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemHeroGridLayoutBinding binder;
         ImageView img;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             binder = DataBindingUtil.getBinding(itemView);
             binder.imageviewItem.setOnClickListener(this);
@@ -93,10 +108,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putString("transitionName", "hero_image" + getAdapterPosition());
-            bundle.putParcelable("HERO", heros.get(getAdapterPosition()));
-            listener.onHeroPick(bundle, img);
+            if (isHero()) {
+                Bundle bundle = new Bundle();
+                bundle.putString("transitionName", "hero_image" + getAdapterPosition());
+                bundle.putParcelable("HERO", heros.get(getAdapterPosition()));
+                heroListener.onHeroPick(bundle, img);
+            } else {
+                itemListener.onItemPick(items.get(getAdapterPosition()));
+            }
         }
     }
 }
