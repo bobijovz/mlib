@@ -5,7 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +28,10 @@ import java.util.ArrayList;
  * Created by Nico on 3/24/2017.
  */
 
-public class HeroListFragment extends Fragment {
+public class HeroListFragment extends Fragment implements ImageAdapter.ImageAdapterListener {
 
     private FragmentHeroListBinding binder;
+    private HeroListFragment fragment;
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private ImageAdapter adapter;
@@ -36,7 +40,7 @@ public class HeroListFragment extends Fragment {
 
 
     public HeroListFragment newInstance(ArrayList<Hero> heros, ArrayList<Item> items) {
-        HeroListFragment fragment = new HeroListFragment();
+        fragment = new HeroListFragment();
         Bundle b = new Bundle();
         b.putParcelableArrayList("HERO_LIST", heros);
         b.putParcelableArrayList("ITEMS", items);
@@ -44,9 +48,9 @@ public class HeroListFragment extends Fragment {
         return fragment;
     }
 
-    public void setAdapterListener(ImageAdapter.ImageAdapterListener listener){
+   /* public void setAdapterListener(ImageAdapter.ImageAdapterListener listener){
         this.listener = listener;
-    }
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,10 +80,40 @@ public class HeroListFragment extends Fragment {
             binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
             binder.recyclerviewHeroList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            adapter.setListener(listener);
+            adapter.setListener(this);
 
 
     }
 
 
+    @Override
+    public void onHeroPick(Bundle data, View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition changeTransform = TransitionInflater.from(getContext()).
+                    inflateTransition(R.transition.change_image_transform);
+            Transition explodeTransform = TransitionInflater.from(getContext()).
+                    inflateTransition(android.R.transition.explode);
+
+            // Setup exit transition on first fragment
+            this.setSharedElementReturnTransition(changeTransform);
+            this.setExitTransition(explodeTransform);
+
+            ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(data);
+           /* ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(this, view, "profile");
+            builderFragment.setArguments(options.toBundle());*/
+            // Setup enter transition on second fragment
+            builderFragment.setSharedElementEnterTransition(changeTransform);
+            builderFragment.setEnterTransition(explodeTransform);
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_main, builderFragment)
+                    .addToBackStack("item_builder")
+                    .addSharedElement(view, "hero_image");
+            // Apply the transaction
+            ft.commit();
+        } else {
+            //switchFragment();
+        }
+    }
 }

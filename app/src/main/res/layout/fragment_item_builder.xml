@@ -8,12 +8,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#eee">
 
             <TextView
                 android:id="@+id/tv_hero_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:background="@color/colorPrimaryDark"
                 android:paddingLeft="120dp"
                 android:paddingTop="30dp"
@@ -38,49 +42,272 @@
             </android.support.v7.widget.CardView>
 
             <LinearLayout
+                android:id="@+id/linear_first_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_hero_name"
                 android:layout_toEndOf="@id/cardview_image_container"
                 android:layout_toRightOf="@id/cardview_image_container"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_hero_name"
                     android:text="Role"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_specialty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Specialty"
-                    android:textStyle="italic"/>
+                    android:textStyle="italic" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/shape_red_circle"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/shape_red_circle"
+                        android:padding="2dp"
+                        android:text="HP : "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_health"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:drawablePadding="5dp"
+                        android:padding="2dp"
+                        android:text="1000" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/shape_blue_circle"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/shape_blue_circle"
+                        android:padding="2dp"
+                        android:text="MANA : "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_mana"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:drawablePadding="5dp"
+                        android:padding="2dp"
+                        android:text="1000" />
+                </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_health"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardview_image_container"
-                android:text="1000"
-                android:drawableLeft="@drawable/shape_red_circle"
-                android:drawableStart="@drawable/shape_red_circle"
-                android:drawablePadding="5dp"
-                android:padding="2dp"/>
-            <TextView
-                android:id="@+id/tv_mana"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cardview_image_container"
-                android:layout_toRightOf="@id/tv_health"
-                android:text="1000"
-                android:drawableLeft="@drawable/shape_blue_circle"
-                android:drawableStart="@drawable/shape_blue_circle"
-                android:drawablePadding="5dp"
-                android:padding="2dp"/>
+                android:layout_below="@id/linear_first_container"
+                android:layout_margin="15dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Ability Crit :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Armor :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Atk Speed :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Atk Crit :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Hp Regen :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_ability_crit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_armor"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_attack_speed"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_attack_crit"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_hp_regen"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Magic Pow :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Magic Resis :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Mana Regen :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Move Speed :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="PAttack :"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_magic_power"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_magic_resist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_mana_regen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_move_speed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_physical_attack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="data"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </RelativeLayout>
@@ -88,33 +315,33 @@
     </android.support.v7.widget.CardView>
 </layout>
 
-   <!-- ability_crit_rate:
-    0
-    armor:
-    21
-    attack_speed:
-    8.5
-    basic_attack_crit_rate:
-    0
-    hp:
-    2811
-    hp_regen:
-    42
-    magic_power:
-    0
-    magic_resistance:
-    10
-    mana:
-    422
-    mana_regen:
-    12
-    movement_speed:
-    2.6
-    physical_attack:
-    115
-    role:
-    "tank"
-    close
-    specialty:
-    "Charge/Crowd Control"
--->
+    <!-- ability_crit_rate:
+     0
+     armor:
+     21
+     attack_speed:
+     8.5
+     basic_attack_crit_rate:
+     0
+     hp:
+     2811
+     hp_regen:
+     42
+     magic_power:
+     0
+     magic_resistance:
+     10
+     mana:
+     422
+     mana_regen:
+     12
+     movement_speed:
+     2.6
+     physical_attack:
+     115
+     role:
+     "tank"
+     close
+     specialty:
+     "Charge/Crowd Control"
+ -->

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
@@ -29,7 +30,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private Context mContext;
     private ImageAdapterListener listener;
 
-    public interface ImageAdapterListener{
+    public interface ImageAdapterListener {
         void onHeroPick(Bundle data, View view);
     }
 
@@ -37,7 +38,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         this.mContext = mContext;
     }
 
-    public void setListener(ImageAdapterListener listener){
+    public void setListener(ImageAdapterListener listener) {
         this.listener = listener;
     }
 
@@ -62,20 +63,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemHeroGridLayoutBinding binder = DataBindingUtil.getBinding(holder.itemView);
+        String path = heros != null && heros.size() > 0 ? heros.get(position).getName().concat(".png") : items.get(position).getName().concat(".png");
 
-        if (heros != null && heros.size() > 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                binder.imageviewItem.setTransitionName("hero_image" + position);
-            Picasso.with(mContext)
-                    .load(new File(mContext.getFilesDir(), heros.get(position).getName().concat(".png")))
-                    .fit()
-                    .centerCrop()
-                    .into(binder.imageviewItem);
-        } else {
-            Picasso.with(mContext)
-                    .load(new File(mContext.getFilesDir(), items.get(position).getName().concat(".png")))
-                    .into(binder.imageviewItem);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            holder.img.setTransitionName("hero_image" + position);
+
+        Picasso.with(mContext)
+                .load(new File(mContext.getFilesDir(), path))
+                .fit()
+                .centerCrop()
+                .into(binder.imageviewItem);
     }
 
     @Override
@@ -83,12 +80,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return heros != null && heros.size() > 0 ? heros.size() : items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemHeroGridLayoutBinding binder;
+        ImageView img;
+
         public ViewHolder(View itemView) {
             super(itemView);
             binder = DataBindingUtil.getBinding(itemView);
             binder.imageviewItem.setOnClickListener(this);
+            img = (ImageView) itemView.findViewById(R.id.imageview_item);
         }
 
         @Override
@@ -96,7 +96,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             Bundle bundle = new Bundle();
             bundle.putString("transitionName", "hero_image" + getAdapterPosition());
             bundle.putParcelable("HERO", heros.get(getAdapterPosition()));
-            listener.onHeroPick(bundle,view);
+            listener.onHeroPick(bundle, img);
         }
     }
 }

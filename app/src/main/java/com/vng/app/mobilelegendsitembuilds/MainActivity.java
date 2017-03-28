@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FirebaseAuth.AuthStateListener,
         GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<Status>,
-        ImageAdapter.ImageAdapterListener{
+        ResultCallback<Status>{
 
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         textEmail.setText(mAuth.getCurrentUser().getEmail());
         heroFrag = new HeroListFragment().newInstance(heros,items);
         switchFragment(heroFrag);
-        heroFrag.setAdapterListener(this);
+        //heroFrag.setAdapterListener(this);
 
     }
 
@@ -249,34 +248,5 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    @Override
-    public void onHeroPick(Bundle hero, View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition changeTransform = TransitionInflater.from(this).
-                    inflateTransition(R.transition.change_image_transform);
-            Transition explodeTransform = TransitionInflater.from(this).
-                    inflateTransition(android.R.transition.explode);
 
-            // Setup exit transition on first fragment
-            heroFrag.setSharedElementReturnTransition(changeTransform);
-            heroFrag.setExitTransition(explodeTransform);
-
-            ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(hero);
-           /* ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(this, view, "profile");
-            builderFragment.setArguments(options.toBundle());*/
-            // Setup enter transition on second fragment
-            builderFragment.setSharedElementEnterTransition(changeTransform);
-            builderFragment.setEnterTransition(explodeTransform);
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_main, builderFragment)
-                    .addToBackStack("item_builder")
-                    .addSharedElement(view, "hero_image");
-            // Apply the transaction
-            ft.commit();
-        } else {
-            //switchFragment();
-        }
-    }
 }
