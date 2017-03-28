@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
-
 import com.vng.app.mobilelegendsitembuilds.databinding.ItemHeroGridLayoutBinding;
 import com.vng.app.mobilelegendsitembuilds.model.Hero;
 import com.vng.app.mobilelegendsitembuilds.model.Item;
@@ -28,17 +28,26 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private ArrayList<Item> items = new ArrayList<>();
     private Context mContext;
     private ImageAdapterListener listener;
+    private OnItemClickListener onItemClickListener;
 
-    public interface ImageAdapterListener{
+    public interface ImageAdapterListener {
         void onHeroPick(Bundle data, View view);
+    }
+
+    public interface OnItemClickListener {
+        void onItemPick(int position);
     }
 
     public ImageAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setListener(ImageAdapterListener listener){
+    public void setListener(ImageAdapterListener listener) {
         this.listener = listener;
+    }
+
+    public void setItemListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     public void setHeros(ArrayList<Hero> heros) {
@@ -83,8 +92,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return heros != null && heros.size() > 0 ? heros.size() : items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemHeroGridLayoutBinding binder;
+
         public ViewHolder(View itemView) {
             super(itemView);
             binder = DataBindingUtil.getBinding(itemView);
@@ -93,10 +103,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putString("transitionName", "hero_image" + getAdapterPosition());
-            bundle.putParcelable("HERO", heros.get(getAdapterPosition()));
-            listener.onHeroPick(bundle,view);
+            if (heros != null && heros.size() > 0) {
+                Bundle bundle = new Bundle();
+                bundle.putString("transitionName", "hero_image" + getAdapterPosition());
+                bundle.putParcelable("HERO", heros.get(getAdapterPosition()));
+                listener.onHeroPick(bundle, view);
+            } else if (items != null && items.size() > 0) {
+                Toast.makeText(mContext, items.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("ITEM", items.get(getAdapterPosition()));
+                onItemClickListener.onItemPick(getAdapterPosition());
+            }
+
         }
     }
 }
