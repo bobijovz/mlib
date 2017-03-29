@@ -167,5 +167,60 @@ public class Hero implements Serializable, Parcelable {
         this.name = name;
     }
 
+    public void setAbility_crit_rate(long ability_crit_rate) {
+        this.ability_crit_rate = ability_crit_rate;
+    }
+
+    public void setArmor(long armor) {
+        this.armor = armor;
+    }
+
+    public void setAttack_speed(long attack_speed) {
+        this.attack_speed = attack_speed;
+    }
+
+    public void setBasic_attack_crit_rate(long basic_attack_crit_rate) {
+        this.basic_attack_crit_rate = basic_attack_crit_rate;
+    }
+
+    public void setHp(long hp) {
+        this.hp = hp;
+    }
+
+    public void setHp_regen(long hp_regen) {
+        this.hp_regen = hp_regen;
+    }
+
+    public void setMagic_power(long magic_power) {
+        this.magic_power = magic_power;
+    }
+
+    public void setMagic_resistance(long magic_resistance) {
+        this.magic_resistance = magic_resistance;
+    }
+
+    public void setMana(long mana) {
+        this.mana = mana;
+    }
+
+    public void setMana_regen(long mana_regen) {
+        this.mana_regen = mana_regen;
+    }
+
+    public void setMovement_speed(long movement_speed) {
+        this.movement_speed = movement_speed;
+    }
+
+    public void setPhysical_attack(long physical_attack) {
+        this.physical_attack = physical_attack;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
 }
 

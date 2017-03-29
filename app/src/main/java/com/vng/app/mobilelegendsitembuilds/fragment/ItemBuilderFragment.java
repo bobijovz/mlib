@@ -268,52 +268,87 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     public void setBuildCollection(int position, Item item){
         itemBuildSet.set(position, item);
         
+        Hero stats = hero;
+        
         for (Item temp:itemBuildSet){
             if (temp.getAbility_crit_rate() != null){
-                setComputation(temp.getAbility_crit_rate(),binder.tvAbilityCrit);
+                long t = stats.getAbility_crit_rate() + Long.parseLong(temp.getAbility_crit_rate()) ;
+                stats.setAbility_crit_rate(t);
+                binder.tvAbilityCrit.setText(String.valueOf(t));
             }
             if (temp.getArmor() != null){
-                setComputation(temp.getArmor(),binder.tvArmor);
+                long t = stats.getArmor() + Long.parseLong(temp.getArmor()) ;
+                stats.setArmor(t);
+                binder.tvArmor.setText(String.valueOf(t));
             }
             if (temp.getAttack_speed() != null){
-                setComputation(temp.getAttack_speed(),binder.tvAttackSpeed);
+                long t = stats.getAttack_speed() + Long.parseLong(temp.getAttack_speed()) ;
+                stats.setAttack_speed(t);
+                binder.tvAttackSpeed.setText(String.valueOf(t));
 
             }
             if (temp.getBasic_attack_crit_rate() != null){
-                setComputation(temp.getBasic_attack_crit_rate(),binder.tvAttackCrit);
+                long t = stats.getBasic_attack_crit_rate() + Long.parseLong(temp.getBasic_attack_crit_rate()) ;
+                stats.setBasic_attack_crit_rate(t);
+
+                binder.tvAttackCrit.setText(String.valueOf(t));
 
             }
             if (temp.getHp() != null){
-                setComputation(temp.getHp(),binder.tvHealth);
+                long t = stats.getHp() + Long.parseLong(temp.getHp()) ;
+                stats.setHp(t);
+               
+                binder.tvHealth.setText(String.valueOf(t));
 
             }
             if (temp.getHp_regen() != null){
-                setComputation(temp.getHp_regen(),binder.tvHpRegen);
+                long t = stats.getHp_regen() + Long.parseLong(temp.getHp_regen()) ;
+                stats.setHp_regen(t);
+                
+                binder.tvHpRegen.setText(String.valueOf(t));
 
             }
 
             if (temp.getMagic_power() != null){
-                setComputation(temp.getMagic_power(),binder.tvMagicPower);
+                long t = stats.getMagic_power() + Long.parseLong(temp.getMagic_power()) ;
+                stats.setMagic_power(t);
+                
+                binder.tvMagicPower.setText(String.valueOf(t));
 
             }
             if (temp.getMagic_resistance() != null){
-                setComputation(temp.getMagic_resistance(),binder.tvMagicResist);
+                long t = stats.getMagic_resistance() + Long.parseLong(temp.getMagic_resistance()) ;
+                stats.setMagic_resistance(t);
+                
+                binder.tvMagicResist.setText(String.valueOf(t));
 
             }
             if (temp.getMana() != null){
-                setComputation(temp.getMana(),binder.tvMana);
+                long t = stats.getMana() + Long.parseLong(temp.getMana()) ;
+                stats.setMana(t);
+                
+                binder.tvMana.setText(String.valueOf(t));
 
             }
             if (temp.getMana_regen() != null){
-                setComputation(temp.getMana_regen(),binder.tvManaRegen);
+                long t = stats.getMana_regen() + Long.parseLong(temp.getMana_regen()) ;
+                stats.setMana_regen(t);
+                
+                binder.tvManaRegen.setText(String.valueOf(t));
 
             }
             if (temp.getMovement_speed() != null){
-                setComputation(temp.getMovement_speed(),binder.tvMoveSpeed);
+                long t = stats.getMovement_speed() + Long.parseLong(temp.getMovement_speed()) ;
+                stats.setMovement_speed(t);
+                
+                binder.tvMoveSpeed.setText(String.valueOf(t));
 
             }
             if (temp.getPhysical_attack() != null){
-                setComputation(temp.getPhysical_attack(),binder.tvPhysicalAttack);
+                long t = stats.getPhysical_attack() + Long.parseLong(temp.getPhysical_attack()) ;
+                stats.setPhysical_attack(t);
+                
+                binder.tvPhysicalAttack.setText(String.valueOf(t));
 
             }
 
@@ -353,10 +388,6 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                  setComputation(temp.getCost(),binder.tvAttackCrit);
             }*/
         }
-    }
-
-    public void setComputation(String d, TextView tv){
-        double i = Double.parseDouble(tv.getText().toString());
-        tv.setText(String.valueOf(i + Double.parseDouble(d)));
+        stats = null;
     }
 }
