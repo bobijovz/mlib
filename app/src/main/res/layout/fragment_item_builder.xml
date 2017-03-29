@@ -41,15 +41,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_hero_name"
-                android:layout_toEndOf="@id/imageview_item"
-                android:layout_toRightOf="@id/imageview_item"
+                android:layout_toEndOf="@+id/imageview_item"
+                android:layout_toRightOf="@+id/imageview_item"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_hero_name"
+                    android:layout_toRightOf="@+id/tv_hero_name"
                     android:text="Role"
                     android:textStyle="bold" />
 
@@ -107,211 +107,390 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearlayout_stats_container"
+            <HorizontalScrollView
+                android:id="@+id/scrollView_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageview_item"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:layout_margin="5dp">
 
                 <LinearLayout
+                    android:id="@+id/linearlayout_stats_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Ability Crit :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Ability Crit :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Armor :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Atk Speed :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Atk Crit :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Hp Regen :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Armor :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/tv_ability_crit"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_armor"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_attack_speed"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_attack_crit"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_hp_regen"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Atk Speed :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Magic Pow :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Magic Resis :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Mana Regen :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Move Speed :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="PAttack :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Atk Crit :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
 
-                    <TextView
-                        android:id="@+id/textView"
+                        <TextView
+                            android:id="@+id/tv_magic_power"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_magic_resist"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_mana_regen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_move_speed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_physical_attack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Hp Regen :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Cldwn Rdct :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Crit Rdct :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Dmg to monst :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Lifesteal :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Mgc Pntrtn :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_cooldown_reduction"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_crit_reduction"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_damage_to_monsters"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_lifesteal"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_magic_penetration"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Phy Pntrtn :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Resilience :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Spell Vamp :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Total Cost :"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_physical_penetration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_resilience"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_spell_vamp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_total_cost"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="data"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_ability_crit"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_armor"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_attack_speed"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_attack_crit"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_hp_regen"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Magic Pow :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Magic Resis :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Mana Regen :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="Move Speed :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="PAttack :"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_magic_power"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_magic_resist"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_mana_regen"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_move_speed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_physical_attack"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="data"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:id="@+id/linearlayout_item_build_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/linearlayout_stats_container"
-                android:gravity="center"
+                android:layout_below="@id/scrollView_stats"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -319,76 +498,77 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true" />
+                    app:civ_border_width="2dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_current_item2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    app:civ_border_width="2dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_current_item3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    app:civ_border_width="2dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_current_item4"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    app:civ_border_width="2dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_current_item5"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    app:civ_border_width="2dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_current_item6"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/messenger_button_send_round_shadow"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    android:clickable="true"
-                    android:focusable="true"/>
+                    app:civ_border_width="2dp" />
 
             </LinearLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_below="@id/linearlayout_item_build_container"
-                app:cardCornerRadius="5dp"
-                android:elevation="5dp">
+                android:layout_margin="2dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="5dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -397,21 +577,41 @@
                         android:id="@+id/spinner_item_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toLeftOf="@+id/scrollview_details"
-                        />
+                        android:padding="20dp" />
+
+                    <Button
+                        android:id="@+id/button_use_build"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/scrollview_details"
+                        android:layout_alignLeft="@+id/scrollview_details"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/scrollview_details"
+                        android:layout_alignTop="@+id/spinner_item_type"
+                        android:background="@drawable/button_selector"
+                        android:text="USE"
+                        android:textColor="@color/colorLight" />
+
                     <ScrollView
                         android:id="@+id/scrollview_details"
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_alignParentRight="true">
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/recyclerview_item_list"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp">
+
+
                         <LinearLayout
                             android:id="@+id/linearlayout_item_details"
-                            android:layout_height="match_parent"
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
 
@@ -423,16 +623,15 @@
                         android:id="@+id/recyclerview_item_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_below="@id/spinner_item_type"
                         android:layout_margin="5dp"
-                        android:layout_toLeftOf="@id/scrollview_details"
-                        android:layout_below="@id/spinner_item_type">
+                        android:layout_toLeftOf="@id/scrollview_details">
 
                     </android.support.v7.widget.RecyclerView>
 
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
-
 
 
         </RelativeLayout>
