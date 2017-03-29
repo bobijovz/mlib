@@ -5,11 +5,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <Spinner
+            android:id="@+id/spinner_heroes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Share Build" />
+            android:layout_height="wrap_content"
+            android:padding="20dp" />
+
+        <include layout="@layout/item_share_build" />
 
     </LinearLayout>
 </layout>
