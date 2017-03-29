@@ -26,28 +26,23 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_image_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageview_item"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="4dp"
-                app:cardPreventCornerOverlap="true">
-
-                <ImageView
-                    android:id="@+id/imageview_item"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp" />
-            </android.support.v7.widget.CardView>
+                android:src="@drawable/messenger_button_send_round_shadow"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="1dp" />
 
             <LinearLayout
                 android:id="@+id/linear_first_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_hero_name"
-                android:layout_toEndOf="@id/cardview_image_container"
-                android:layout_toRightOf="@id/cardview_image_container"
+                android:layout_toEndOf="@id/imageview_item"
+                android:layout_toRightOf="@id/imageview_item"
                 android:orientation="vertical">
 
                 <TextView
@@ -113,9 +108,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearlayout_stats_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/linear_first_container"
+                android:layout_below="@id/imageview_item"
                 android:layout_margin="15dp"
                 android:orientation="horizontal">
 
@@ -182,35 +178,35 @@
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_armor"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_attack_speed"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_attack_crit"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_hp_regen"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -275,73 +271,127 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_magic_resist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_mana_regen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_move_speed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_physical_attack"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="data"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linearlayout_item_build_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearlayout_stats_container"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_current_item6"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/messenger_button_send_round_shadow"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_item_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/linearlayout_item_build_container">
+
+            </android.support.v7.widget.RecyclerView>
 
         </RelativeLayout>
+
 
     </android.support.v7.widget.CardView>
 </layout>
 
-    <!-- ability_crit_rate:
-     0
-     armor:
-     21
-     attack_speed:
-     8.5
-     basic_attack_crit_rate:
-     0
-     hp:
-     2811
-     hp_regen:
-     42
-     magic_power:
-     0
-     magic_resistance:
-     10
-     mana:
-     422
-     mana_regen:
-     12
-     movement_speed:
-     2.6
-     physical_attack:
-     115
-     role:
-     "tank"
-     close
-     specialty:
-     "Charge/Crowd Control"
- -->

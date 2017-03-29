@@ -1,10 +1,13 @@
 package com.vng.app.mobilelegendsitembuilds.fragment;
 
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +17,30 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
+import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
 import com.vng.app.mobilelegendsitembuilds.databinding.FragmentItemBuilderBinding;
 import com.vng.app.mobilelegendsitembuilds.model.Hero;
+import com.vng.app.mobilelegendsitembuilds.model.Item;
 
 import java.io.File;
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by jovijovs on 3/27/2017.
  */
 
-public class ItemBuilderFragment extends Fragment {
+public class ItemBuilderFragment extends Fragment implements View.OnClickListener, ImageAdapter.ItemAdapterListener {
 
     private Hero hero;
+    private ArrayList<Item> items = new ArrayList<>();
     private FragmentItemBuilderBinding binder;
     private String transition_name = "";
-    private ImageView img;
+    private CircleImageView selectedItemSlot;
+    private ImageAdapter adapter;
+
+
     public ItemBuilderFragment() {
     }
 
@@ -43,6 +55,7 @@ public class ItemBuilderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             hero = getArguments().getParcelable("HERO");
+            items = getArguments().getParcelableArrayList("ITEMS");
             transition_name = getArguments().getString("transitionName");
         }
     }
@@ -51,10 +64,15 @@ public class ItemBuilderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_item_builder, container, false);
-        img = (ImageView) binder.getRoot().findViewById(R.id.imageview_item);
-        Log.d("TRANSITION",transition_name);
+
+        return binder.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            img.setTransitionName(transition_name);
+            binder.imageviewItem.setTransitionName(transition_name);
         }
         binder.tvHeroName.setText(hero.getName());
         binder.tvRole.setText(hero.getRole());
@@ -71,6 +89,12 @@ public class ItemBuilderFragment extends Fragment {
         binder.tvManaRegen.setText(String.valueOf(hero.getMana_regen()));
         binder.tvMoveSpeed.setText(String.valueOf(hero.getMovement_speed()));
         binder.tvPhysicalAttack.setText(String.valueOf(hero.getPhysical_attack()));
+        binder.imageCurrentItem1.setOnClickListener(this);
+        binder.imageCurrentItem2.setOnClickListener(this);
+        binder.imageCurrentItem3.setOnClickListener(this);
+        binder.imageCurrentItem4.setOnClickListener(this);
+        binder.imageCurrentItem5.setOnClickListener(this);
+        binder.imageCurrentItem6.setOnClickListener(this);
 
         Picasso.with(getContext())
                 .load(new File(getContext().getFilesDir(), hero.getName().concat(".png")))
@@ -78,14 +102,60 @@ public class ItemBuilderFragment extends Fragment {
                 .centerCrop()
                 .into(binder.imageviewItem);
 
-        return binder.getRoot();
+        onItemSelected(0);
+
+        adapter = new ImageAdapter(getContext());
+        adapter.setItems(items);
+        adapter.setListener(this);
+        binder.recyclerviewItemList.setLayoutManager(new GridLayoutManager(getContext(),6));
+        binder.recyclerviewItemList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public void onItemSelected(int i){
+
+        for (int j = 0 ; j < binder.linearlayoutItemBuildContainer.getChildCount(); j++){
+            CircleImageView img = (CircleImageView) binder.linearlayoutItemBuildContainer.getChildAt(j);
+            if (j == i){
+                selectedItemSlot = img;
+                img.setBorderColor(ContextCompat.getColor(getContext(),R.color.colorPrimaryDark));
+            } else {
+                img.setBorderColor(ContextCompat.getColor(getContext(),android.R.color.white));
+            }
+        }
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.image_current_item1:
+                onItemSelected(0);
+                break;
+            case R.id.image_current_item2:
+                onItemSelected(1);
+                break;
+            case R.id.image_current_item3:
+                onItemSelected(2);
+                break;
+            case R.id.image_current_item4:
+                onItemSelected(3);
+                break;
+            case R.id.image_current_item5:
+                onItemSelected(4);
+                break;
+            case R.id.image_current_item6:
+                onItemSelected(5);
+                break;
+        }
+    }
 
-
-
+    @Override
+    public void onItemPick(Item item) {
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), item.getName().concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(selectedItemSlot);
     }
 }

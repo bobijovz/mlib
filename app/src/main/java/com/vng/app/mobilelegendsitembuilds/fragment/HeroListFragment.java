@@ -80,6 +80,9 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
 
     @Override
     public void onHeroPick(Bundle data, View view) {
+        Bundle newData = data;
+        newData.putParcelableArrayList("ITEMS",items);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition changeTransform = TransitionInflater.from(getContext()).
                     inflateTransition(R.transition.change_image_transform);
@@ -90,7 +93,8 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
             this.setSharedElementReturnTransition(changeTransform);
             this.setExitTransition(explodeTransform);
 
-            ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(data);
+
+            ItemBuilderFragment builderFragment = new ItemBuilderFragment().newInstance(newData);
             // Setup enter transition on second fragment
             builderFragment.setSharedElementEnterTransition(changeTransform);
             builderFragment.setEnterTransition(explodeTransform);
@@ -102,7 +106,7 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
             ft.commit();
         } else {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_main, new ItemBuilderFragment().newInstance(data));
+            transaction.replace(R.id.content_main, new ItemBuilderFragment().newInstance(newData));
             transaction.commit();
         }
     }
