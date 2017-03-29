@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.vng.app.mobilelegendsitembuilds.model.Hero;
 import com.vng.app.mobilelegendsitembuilds.model.Item;
 
 import java.io.File;
+import java.sql.Array;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,6 +41,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private String transition_name = "";
     private CircleImageView selectedItemSlot;
     private ImageAdapter adapter;
+    private ArrayList<String> itemTypes = new ArrayList<>();
 
 
     public ItemBuilderFragment() {
@@ -74,6 +77,11 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binder.imageviewItem.setTransitionName(transition_name);
         }
+        for (Item item: items){
+            if (!itemTypes.contains(item.getType())){
+                itemTypes.add(item.getType());
+            }
+        }
         binder.tvHeroName.setText(hero.getName());
         binder.tvRole.setText(hero.getRole());
         binder.tvSpecialty.setText(hero.getSpecialty());
@@ -107,9 +115,12 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         adapter = new ImageAdapter(getContext());
         adapter.setItems(items);
         adapter.setListener(this);
-        binder.recyclerviewItemList.setLayoutManager(new GridLayoutManager(getContext(),6));
+        binder.recyclerviewItemList.setLayoutManager(new GridLayoutManager(getContext(),4));
         binder.recyclerviewItemList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        //binder.spinnerItemType.setAdapter();
+
+
 
     }
 
@@ -157,5 +168,53 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 .fit()
                 .centerCrop()
                 .into(selectedItemSlot);
+
+        binder.tvItemTitle.setText(item.getName());
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("armor :".concat(item.getArmor()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("attack speed :".concat(item.getAttack_speed()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+        if (!item.getAbility_crit_rate().contentEquals("0")){
+            addDetails("crit rate :".concat(item.getAbility_crit_rate()));
+        }
+
+    }
+
+    public void addDetails(String detail){
+        TextView temp = new TextView(getContext());
+        temp.setText(detail);
+        binder.linearlayoutItemDetails.addView(temp);
     }
 }
