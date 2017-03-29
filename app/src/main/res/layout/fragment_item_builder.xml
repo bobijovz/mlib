@@ -400,32 +400,31 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@id/linearlayout_item_details"
+                        android:layout_toLeftOf="@+id/scrollview_details"
                         />
-
-                    <LinearLayout
-                        android:id="@+id/linearlayout_item_details"
+                    <ScrollView
+                        android:id="@+id/scrollview_details"
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="vertical"
                         android:layout_alignParentRight="true">
-                        <TextView
-                            android:id="@+id/tv_item_title"
+                        <LinearLayout
+                            android:id="@+id/linearlayout_item_details"
+                            android:layout_height="match_parent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textAlignment="center"
-                            android:text="Item"/>
+                            android:orientation="vertical">
 
 
-                    </LinearLayout>
+                        </LinearLayout>
+
+                    </ScrollView>
+
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerview_item_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:layout_toLeftOf="@id/linearlayout_item_details"
+                        android:layout_toLeftOf="@id/scrollview_details"
                         android:layout_below="@id/spinner_item_type">
 
                     </android.support.v7.widget.RecyclerView>
