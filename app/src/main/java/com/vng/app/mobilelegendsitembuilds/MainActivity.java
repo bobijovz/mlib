@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private HeroListFragment heroFrag;
+    private ShareBuildFragment shareBuildFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         textName.setText(mAuth.getCurrentUser().getDisplayName());
         textEmail.setText(mAuth.getCurrentUser().getEmail());
         heroFrag = new HeroListFragment().newInstance(heros, items);
+        shareBuildFrag = new ShareBuildFragment().newInstance(heros);
         switchFragment(heroFrag);
         //heroFrag.setAdapterListener(this);
 
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_widget) {
             switchFragment(new WidgetFragment());
         } else if (id == R.id.nav_build_sharing) {
-            switchFragment(new ShareBuildFragment());
+            switchFragment(shareBuildFrag);
         } else if (id == R.id.nav_share) {
             ShareDialog shareDialog = new ShareDialog(this);
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
