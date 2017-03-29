@@ -1,16 +1,23 @@
 package com.vng.app.mobilelegendsitembuilds.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.vng.app.mobilelegendsitembuilds.R;
@@ -26,6 +33,13 @@ import static android.app.Activity.RESULT_OK;
 public class WidgetFragment extends Fragment {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private FragmentWidgetBinding binder;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String BuildOne = "buildOneKey";
+    public static final String BuildTwo = "buildTwoKey";
+    public static final String BuildThree = "buildThreeKey";
+
+    SharedPreferences sharedpreferences;
 
     @Nullable
     @Override
@@ -46,21 +60,126 @@ public class WidgetFragment extends Fragment {
     }
 
     private void initializeView() {
-        binder.buttonOpenWidget.setOnClickListener(new View.OnClickListener() {
+        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        binder.textReservedBuild1.setText(sharedpreferences.getString(BuildOne, "Reserved Build One"));
+        binder.textReservedBuild2.setText(sharedpreferences.getString(BuildTwo, "Reserved Build Two"));
+        binder.textReservedBuild3.setText(sharedpreferences.getString(BuildThree, "Reserved Build Three"));
+        binder.fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Snackbar.make(view, "Item Widget Initialized", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getActivity().stopService(new Intent(getActivity(), FloatingViewService.class));
+                            }
+                        }).show();
                 getActivity().startService(new Intent(getActivity(), FloatingViewService.class));
+
             }
         });
 
-        binder.buttonOpenMoba.setOnClickListener(new View.OnClickListener() {
+        binder.fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage("com.mobile.legends");
                 if (launchIntent != null) {
                     startActivity(launchIntent);
                     getActivity().startService(new Intent(getActivity(), FloatingViewService.class));
                 }
+                return true;
+            }
+        });
+
+        binder.textReservedBuild1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Input Name of Build");
+
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binder.textReservedBuild1.setText(input.getText().toString());
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(BuildOne, binder.textReservedBuild1.getText().toString());
+                        editor.apply();
+                        Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        binder.textReservedBuild2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Input Name of Build");
+
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binder.textReservedBuild2.setText(input.getText().toString());
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(BuildTwo, binder.textReservedBuild2.getText().toString());
+                        editor.apply();
+                        Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        binder.textReservedBuild3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Input Name of Build");
+
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binder.textReservedBuild3.setText(input.getText().toString());
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(BuildThree, binder.textReservedBuild3.getText().toString());
+                        editor.apply();
+                        Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
     }
