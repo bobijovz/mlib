@@ -47,7 +47,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private int selectedItemPosition = 0;
     private ImageAdapter adapter;
     private ArrayList<String> itemTypes = new ArrayList<>();
-    private ArrayList<Item> itemBuildSet = new ArrayList<>(5);
+    private ArrayList<Item> itemBuildSet = new ArrayList<>();
 
 
     public ItemBuilderFragment() {
@@ -88,25 +88,14 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 itemTypes.add(item.getType());
             }
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             itemBuildSet.add(new Item());
         }
-
         binder.tvHeroName.setText(hero.getName());
         binder.tvRole.setText(hero.getRole());
         binder.tvSpecialty.setText(hero.getSpecialty());
-        binder.tvHealth.setText(String.valueOf(hero.getHp()));
-        binder.tvMana.setText(String.valueOf(hero.getMana()));
-        binder.tvAbilityCrit.setText(String.valueOf(hero.getAbility_crit_rate()));
-        binder.tvArmor.setText(String.valueOf(hero.getArmor()));
-        binder.tvAttackSpeed.setText(String.valueOf(hero.getAttack_speed()));
-        binder.tvAttackCrit.setText(String.valueOf(hero.getBasic_attack_crit_rate()));
-        binder.tvHpRegen.setText(String.valueOf(hero.getHp_regen()));
-        binder.tvMagicPower.setText(String.valueOf(hero.getMagic_power()));
-        binder.tvMagicResist.setText(String.valueOf(hero.getMagic_resistance()));
-        binder.tvManaRegen.setText(String.valueOf(hero.getMana_regen()));
-        binder.tvMoveSpeed.setText(String.valueOf(hero.getMovement_speed()));
-        binder.tvPhysicalAttack.setText(String.valueOf(hero.getPhysical_attack()));
+
+        setHeroStats(hero, new Hero());
         binder.imageCurrentItem1.setOnClickListener(this);
         binder.imageCurrentItem2.setOnClickListener(this);
         binder.imageCurrentItem3.setOnClickListener(this);
@@ -129,9 +118,23 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         binder.recyclerviewItemList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         //binder.spinnerItemType.setAdapter();
+        //TODO add filter for item 'itemTypes'
 
+    }
 
-
+    public void setHeroStats(Hero hero, Hero item){
+        binder.tvHealth.setText(String.valueOf(hero.getHp() + item.getHp()));
+        binder.tvMana.setText(String.valueOf(hero.getMana() + item.getMana()));
+        binder.tvAbilityCrit.setText(String.valueOf(hero.getAbility_crit_rate() + item.getAbility_crit_rate()));
+        binder.tvArmor.setText(String.valueOf(hero.getArmor() + item.getArmor()));
+        binder.tvAttackSpeed.setText(String.valueOf(hero.getAttack_speed() + item.getAttack_speed()));
+        binder.tvAttackCrit.setText(String.valueOf(hero.getBasic_attack_crit_rate() + item.getBasic_attack_crit_rate()));
+        binder.tvHpRegen.setText(String.valueOf(hero.getHp_regen() + item.getHp_regen()));
+        binder.tvMagicPower.setText(String.valueOf(hero.getMagic_power() + item.getMagic_power()));
+        binder.tvMagicResist.setText(String.valueOf(hero.getMagic_resistance() + item.getMagic_resistance()));
+        binder.tvManaRegen.setText(String.valueOf(hero.getMana_regen() + item.getMana_regen()));
+        binder.tvMoveSpeed.setText(String.valueOf(hero.getMovement_speed() + item.getMovement_speed()));
+        binder.tvPhysicalAttack.setText(String.valueOf(hero.getPhysical_attack() + item.getPhysical_attack()));
     }
 
     public void onItemSelected(int i){
@@ -267,91 +270,57 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     
     public void setBuildCollection(int position, Item item){
         itemBuildSet.set(position, item);
-        
-        Hero stats = hero;
-        
+        Hero stats = new Hero();
         for (Item temp:itemBuildSet){
             if (temp.getAbility_crit_rate() != null){
                 long t = stats.getAbility_crit_rate() + Long.parseLong(temp.getAbility_crit_rate()) ;
                 stats.setAbility_crit_rate(t);
-                binder.tvAbilityCrit.setText(String.valueOf(t));
             }
             if (temp.getArmor() != null){
                 long t = stats.getArmor() + Long.parseLong(temp.getArmor()) ;
                 stats.setArmor(t);
-                binder.tvArmor.setText(String.valueOf(t));
             }
             if (temp.getAttack_speed() != null){
                 long t = stats.getAttack_speed() + Long.parseLong(temp.getAttack_speed()) ;
                 stats.setAttack_speed(t);
-                binder.tvAttackSpeed.setText(String.valueOf(t));
-
             }
             if (temp.getBasic_attack_crit_rate() != null){
                 long t = stats.getBasic_attack_crit_rate() + Long.parseLong(temp.getBasic_attack_crit_rate()) ;
                 stats.setBasic_attack_crit_rate(t);
-
-                binder.tvAttackCrit.setText(String.valueOf(t));
-
             }
             if (temp.getHp() != null){
                 long t = stats.getHp() + Long.parseLong(temp.getHp()) ;
                 stats.setHp(t);
-               
-                binder.tvHealth.setText(String.valueOf(t));
-
             }
             if (temp.getHp_regen() != null){
                 long t = stats.getHp_regen() + Long.parseLong(temp.getHp_regen()) ;
                 stats.setHp_regen(t);
-                
-                binder.tvHpRegen.setText(String.valueOf(t));
-
             }
-
             if (temp.getMagic_power() != null){
                 long t = stats.getMagic_power() + Long.parseLong(temp.getMagic_power()) ;
                 stats.setMagic_power(t);
-                
-                binder.tvMagicPower.setText(String.valueOf(t));
-
             }
             if (temp.getMagic_resistance() != null){
                 long t = stats.getMagic_resistance() + Long.parseLong(temp.getMagic_resistance()) ;
                 stats.setMagic_resistance(t);
-                
-                binder.tvMagicResist.setText(String.valueOf(t));
-
             }
             if (temp.getMana() != null){
                 long t = stats.getMana() + Long.parseLong(temp.getMana()) ;
                 stats.setMana(t);
-                
-                binder.tvMana.setText(String.valueOf(t));
-
             }
             if (temp.getMana_regen() != null){
                 long t = stats.getMana_regen() + Long.parseLong(temp.getMana_regen()) ;
                 stats.setMana_regen(t);
-                
-                binder.tvManaRegen.setText(String.valueOf(t));
-
             }
             if (temp.getMovement_speed() != null){
                 long t = stats.getMovement_speed() + Long.parseLong(temp.getMovement_speed()) ;
                 stats.setMovement_speed(t);
-                
-                binder.tvMoveSpeed.setText(String.valueOf(t));
-
             }
             if (temp.getPhysical_attack() != null){
                 long t = stats.getPhysical_attack() + Long.parseLong(temp.getPhysical_attack()) ;
                 stats.setPhysical_attack(t);
-                
-                binder.tvPhysicalAttack.setText(String.valueOf(t));
-
             }
-
+            //TODO add other stats
             /*if (temp.getCooldown_reduction() != null){
                 setComputation(temp.getCooldown_reduction(),binder.tv);
 
@@ -388,6 +357,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                  setComputation(temp.getCost(),binder.tvAttackCrit);
             }*/
         }
-        stats = null;
+
+        setHeroStats(hero, stats);
     }
 }
