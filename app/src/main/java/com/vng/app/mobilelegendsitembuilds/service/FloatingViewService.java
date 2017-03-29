@@ -55,6 +55,8 @@ public class FloatingViewService extends Service {
         final View collapsedView = mFloatingView.findViewById(R.id.collapse_view);
         final View expandedView = mFloatingView.findViewById(R.id.expanded_container);
         final View selectBuildView = mFloatingView.findViewById(R.id.select_build_container);
+        final View selectBuildView2 = mFloatingView.findViewById(R.id.select_build_container2);
+        final View selectBuildView3 = mFloatingView.findViewById(R.id.select_build_container3);
 
 
         ImageView closeButtonCollapsed = (ImageView) mFloatingView.findViewById(R.id.close_btn);
@@ -72,6 +74,8 @@ public class FloatingViewService extends Service {
                 collapsedView.setVisibility(View.VISIBLE);
                 expandedView.setVisibility(View.GONE);
                 selectBuildView.setVisibility(View.GONE);
+                selectBuildView2.setVisibility(View.GONE);
+                selectBuildView3.setVisibility(View.GONE);
             }
         });
 
@@ -81,9 +85,13 @@ public class FloatingViewService extends Service {
             public void onClick(View view) {
                 if (selectBuildView.getVisibility() == View.GONE) {
                     selectBuildView.setVisibility(View.VISIBLE);
+                    selectBuildView2.setVisibility(View.VISIBLE);
+                    selectBuildView3.setVisibility(View.VISIBLE);
                     openButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_expand_less_white_24dp, null));
                 } else {
                     selectBuildView.setVisibility(View.GONE);
+                    selectBuildView2.setVisibility(View.GONE);
+                    selectBuildView3.setVisibility(View.GONE);
                     openButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_expand_more_white_24dp, null));
                 }
                 collapsedView.setVisibility(View.GONE);
