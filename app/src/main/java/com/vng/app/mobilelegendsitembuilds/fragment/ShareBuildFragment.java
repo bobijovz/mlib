@@ -39,7 +39,12 @@ public class ShareBuildFragment extends Fragment {
         binder = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_share_build, container, false);
         if (getArguments() != null) {
             heros = getArguments().getParcelableArrayList("HERO_LIST");
-            ArrayAdapter<Hero> hero = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, heros);
+            ArrayList<String> heroList = new ArrayList<>();
+
+            for (int i = 0; i < heros.size(); i++) {
+                heroList.add(heros.get(i).getName());
+            }
+            ArrayAdapter hero = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, heroList);
             hero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             binder.spinnerHeroes.setAdapter(hero);
             binder.spinnerHeroes.setSelection(0);
