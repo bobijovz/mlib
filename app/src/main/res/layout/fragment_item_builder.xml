@@ -26,6 +26,20 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/button_use_build"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/linear_first_container"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/button_transparent_selector"
+                android:drawableLeft="@drawable/ic_save_white_24dp"
+                android:padding="10dp"
+                android:text="SAVE"
+                android:textColor="@color/colorLight" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageview_item"
                 android:layout_width="100dp"
@@ -583,26 +597,12 @@
                         android:layout_toLeftOf="@+id/scrollview_details"
                         android:padding="10dp" />
 
-                    <Button
-                        android:id="@+id/button_use_build"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/scrollview_details"
-                        android:layout_alignLeft="@+id/scrollview_details"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignStart="@+id/scrollview_details"
-                        android:layout_alignTop="@+id/spinner_item_type"
-                        android:background="@drawable/button_selector"
-                        android:text="USE"
-                        android:textColor="@color/colorLight" />
-
                     <ScrollView
                         android:id="@+id/scrollview_details"
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_alignTop="@+id/recyclerview_item_list"
+                        android:layout_alignTop="@+id/spinner_item_type"
                         android:layout_marginBottom="5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp">
