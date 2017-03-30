@@ -125,13 +125,21 @@
                 android:id="@+id/scrollView_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/linearlayout_item_build_container"
+                android:layout_alignLeft="@+id/imageview_item"
+                android:layout_alignRight="@+id/linearlayout_item_build_container"
+                android:layout_alignStart="@+id/imageview_item"
                 android:layout_below="@id/imageview_item"
-                android:layout_margin="5dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:id="@+id/linearlayout_stats_container"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -144,7 +152,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Ability Crit :"
+                            android:text="ABLCRT: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -152,7 +160,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Armor :"
+                            android:text="ARMOR: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -160,7 +168,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Atk Speed :"
+                            android:text="ATKSPD: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -168,7 +176,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Atk Crit :"
+                            android:text="ATKCRT: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -177,7 +185,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Hp Regen :"
+                            android:text="HPRGN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -194,35 +202,35 @@
 
                         <TextView
                             android:id="@+id/tv_ability_crit"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_armor"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_attack_speed"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_attack_crit"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_hp_regen"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
@@ -239,7 +247,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Magic Pow :"
+                            android:text="MGCPWR: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -247,7 +255,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Magic Resis :"
+                            android:text="MGCRES: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -255,7 +263,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Mana Regen :"
+                            android:text="MANRGN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -263,7 +271,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Move Speed :"
+                            android:text="MVMSPD: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -271,7 +279,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="PAttack :"
+                            android:text="PHYATK: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -333,7 +341,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Cldwn Rdct :"
+                            android:text="CDRDN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -341,7 +349,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Crit Rdct :"
+                            android:text="CRTRDN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -349,7 +357,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Dmg to monst :"
+                            android:text="DMGMON: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -357,7 +365,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Lifesteal :"
+                            android:text="LIFSTL: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -365,7 +373,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Mgc Pntrtn :"
+                            android:text="MGCPEN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -382,35 +390,35 @@
 
                         <TextView
                             android:id="@+id/tv_cooldown_reduction"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_crit_reduction"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_damage_to_monsters"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_lifesteal"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_magic_penetration"
-                            android:layout_width="50dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="data"
                             android:textSize="12sp" />
@@ -427,7 +435,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Phy Pntrtn :"
+                            android:text="PHYPEN: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -435,7 +443,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Resilience :"
+                            android:text="RSLNCE: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -443,7 +451,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Spell Vamp :"
+                            android:text="SPLVMP: "
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
@@ -451,7 +459,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="Total Cost :"
+                            android:text="COST:"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
