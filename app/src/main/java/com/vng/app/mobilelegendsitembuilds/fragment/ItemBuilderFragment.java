@@ -45,7 +45,6 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private ArrayList<Item> itemBuildSet = new ArrayList<>();
     ImageAdapter.ItemAdapterListener itemListener;
 
-
     public ItemBuilderFragment() {
     }
 
@@ -384,6 +383,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 long t = stats.getCost() + Long.parseLong(temp.getCost());
                 stats.setCost(t);
             }
+
 
         }
 

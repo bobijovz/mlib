@@ -29,4 +29,14 @@
         <item name="item_movement">Movement</item>
         <item name="item_jungle">Jungle</item>
     </string-array>
+
+    <string-array name="array_hero_category">
+        <item name="item_all">All</item>
+        <item name="item_tank">Tank</item>
+        <item name="item_fighter">Fighter</item>
+        <item name="item_assassin">Assassin</item>
+        <item name="item_mage">Mage</item>
+        <item name="item_marksman">Marksman</item>
+        <item name="item_support">Support</item>
+    </string-array>
 </resources>

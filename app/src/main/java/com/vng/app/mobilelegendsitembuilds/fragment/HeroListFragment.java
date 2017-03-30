@@ -9,15 +9,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.vng.app.mobilelegendsitembuilds.R;
 import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
 import com.vng.app.mobilelegendsitembuilds.databinding.FragmentHeroListBinding;
-import com.vng.app.mobilelegendsitembuilds.databinding.FragmentItemBuilderBinding;
 import com.vng.app.mobilelegendsitembuilds.model.Hero;
 import com.vng.app.mobilelegendsitembuilds.model.Item;
 
@@ -35,7 +34,7 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
     private ArrayList<Hero> heros = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private ImageAdapter adapter;
-
+    ImageAdapter.HeroAdapterListener heroListener;
 
     public HeroListFragment newInstance(ArrayList<Hero> heros, ArrayList<Item> items) {
         fragment = new HeroListFragment();
@@ -67,13 +66,34 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-            adapter = new ImageAdapter(getContext());
-            adapter.setHeros(heros);
+        heroListener = this;
+        binder.spinnerHeroType.setSelection(0);
+        binder.spinnerHeroType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<Hero> test = new ArrayList<>();
+                adapter = new ImageAdapter(getContext());
+                if (binder.spinnerHeroType.getSelectedItem().toString().equals("All")) {
+                    adapter.setHeros(heros);
+                } else {
+                    for (int i = 0; i < heros.size(); i++) {
+                        if (heros.get(i).getRole().contains(binder.spinnerHeroType.getSelectedItem().toString())) {
+                            test.add(heros.get(i));
+                        }
+                    }
+                    adapter.setHeros(test);
+                }
+                adapter.setListener(heroListener);
+                binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(), 5));
+                binder.recyclerviewHeroList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
 
-            binder.recyclerviewHeroList.setLayoutManager(new GridLayoutManager(getContext(),5));
-            binder.recyclerviewHeroList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            adapter.setListener(this);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -81,7 +101,7 @@ public class HeroListFragment extends Fragment implements ImageAdapter.HeroAdapt
     @Override
     public void onHeroPick(Bundle data, View view) {
         Bundle newData = data;
-        newData.putParcelableArrayList("ITEMS",items);
+        newData.putParcelableArrayList("ITEMS", items);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition changeTransform = TransitionInflater.from(getContext()).
