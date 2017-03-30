@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.vng.app.mobilelegendsitembuilds.R;
@@ -98,6 +99,26 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         binder.imageCurrentItem4.setOnClickListener(this);
         binder.imageCurrentItem5.setOnClickListener(this);
         binder.imageCurrentItem6.setOnClickListener(this);
+
+        binder.textLabelAbilityCrit.setOnClickListener(this);
+        binder.textLabelArmor.setOnClickListener(this);
+        binder.textLabelAttackSpeed.setOnClickListener(this);
+        binder.textLabelAttackCrit.setOnClickListener(this);
+        binder.textLabelHpRegen.setOnClickListener(this);
+        binder.textLabelMagicPower.setOnClickListener(this);
+        binder.textLabelMagicResistance.setOnClickListener(this);
+        binder.textLabelManaRegen.setOnClickListener(this);
+        binder.textLabelMovementSpeed.setOnClickListener(this);
+        binder.textLabelPhysicalAttack.setOnClickListener(this);
+        binder.textLabelCooldownReduction.setOnClickListener(this);
+        binder.textLabelCritReduction.setOnClickListener(this);
+        binder.textLabelDamageToMonsters.setOnClickListener(this);
+        binder.textLabelLifesteal.setOnClickListener(this);
+        binder.textLabelMagicPenetration.setOnClickListener(this);
+        binder.textLabelPhysicalPenetration.setOnClickListener(this);
+        binder.textLabelResilience.setOnClickListener(this);
+        binder.textLabelSpellVamp.setOnClickListener(this);
+        binder.textLabelCost.setOnClickListener(this);
 
         Picasso.with(getContext())
                 .load(new File(getContext().getFilesDir(), hero.getName().concat(".png")))
@@ -197,6 +218,83 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
             case R.id.image_current_item6:
                 onItemSelected(5);
                 break;
+
+            case R.id.text_label_ability_crit:
+                Toast.makeText(getContext(), "Ability Crit", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_armor:
+                Toast.makeText(getContext(), "Armor", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_attack_speed:
+                Toast.makeText(getContext(), "Attack Speed", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_attack_crit:
+                Toast.makeText(getContext(), "Attack Crit", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_hp_regen:
+                Toast.makeText(getContext(), "HP REGEN", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_magic_power:
+                Toast.makeText(getContext(), "MAGIC POWER", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_magic_resistance:
+                Toast.makeText(getContext(), "MAGIC RESISTANCE", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_mana_regen:
+                Toast.makeText(getContext(), "MANA REGEN", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_movement_speed:
+                Toast.makeText(getContext(), "MOVEMENT SPEED", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_physical_attack:
+                Toast.makeText(getContext(), "PHYSICAL ATTACK", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_cooldown_reduction:
+                Toast.makeText(getContext(), "COOLDOWN REDUCTION", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_crit_reduction:
+                Toast.makeText(getContext(), "CRIT REDUCTION", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_damage_to_monsters:
+                Toast.makeText(getContext(), "DAMAGE TO MONSTERS", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_lifesteal:
+                Toast.makeText(getContext(), "LIFESTEAL", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_magic_penetration:
+                Toast.makeText(getContext(), "MAGIC PENETRATION", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_physical_penetration:
+                Toast.makeText(getContext(), "PHYSICAL PENETRATION", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_resilience:
+                Toast.makeText(getContext(), "RESILIENCE", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_spell_vamp:
+                Toast.makeText(getContext(), "SPELL VAMP", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.text_label_cost:
+                Toast.makeText(getContext(), "TOTAL COST", Toast.LENGTH_SHORT).show();
+                break;
+
         }
     }
 
