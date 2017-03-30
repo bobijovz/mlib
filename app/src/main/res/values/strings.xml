@@ -20,4 +20,13 @@
         completions."
     </string>
     <string name="facebook_app_id">130023197529498</string>
+
+    <string-array name="array_item_category">
+        <item name="item_all">All</item>
+        <item name="item_attack">Attack</item>
+        <item name="item_magic">Magic</item>
+        <item name="item_defense">Defense</item>
+        <item name="item_movement">Movement</item>
+        <item name="item_jungle">Jungle</item>
+    </string-array>
 </resources>

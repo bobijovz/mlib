@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private ImageAdapter adapter;
     private ArrayList<String> itemTypes = new ArrayList<>();
     private ArrayList<Item> itemBuildSet = new ArrayList<>();
+    ImageAdapter.ItemAdapterListener itemListener;
 
 
     public ItemBuilderFragment() {
@@ -69,15 +71,6 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_item_builder, container, false);
-//        ArrayList<String> itemList = new ArrayList<>();
-//
-//        for (int i = 0; i < items.size(); i++) {
-//            itemList.add(items.get(i).getType());
-//        }
-//        ArrayAdapter itemAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, itemList);
-//        itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        binder.spinnerItemType.setAdapter(itemAdapter);
-//        binder.spinnerItemType.setSelection(0);
         return binder.getRoot();
     }
 
@@ -114,16 +107,35 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 .into(binder.imageviewItem);
 
         onItemSelected(0);
+        itemListener = this;
 
-        adapter = new ImageAdapter(getContext());
-        adapter.setItems(items);
-        adapter.setListener(this);
-        binder.recyclerviewItemList.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        binder.recyclerviewItemList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        //binder.spinnerItemType.setAdapter();
-        //TODO add filter for item 'itemTypes'
+        binder.spinnerItemType.setSelection(0);
+        binder.spinnerItemType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<Item> test = new ArrayList<>();
+                adapter = new ImageAdapter(getContext());
+                if (binder.spinnerItemType.getSelectedItem().toString().equals("All")) {
+                    adapter.setItems(items);
+                } else {
+                    for (int i = 0; i < items.size(); i++) {
+                        if (items.get(i).getType().equals(binder.spinnerItemType.getSelectedItem().toString())) {
+                            test.add(items.get(i));
+                        }
+                    }
+                    adapter.setItems(test);
+                }
+                adapter.setListener(itemListener);
+                binder.recyclerviewItemList.setLayoutManager(new GridLayoutManager(getContext(), 4));
+                binder.recyclerviewItemList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void setHeroStats(Hero hero, Hero item) {
@@ -336,9 +348,6 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 stats.setPhysical_attack(t);
             }
 
-
-            //TODO add other stats
-
             if (temp.getCooldown_reduction() != null) {
                 long t = stats.getCooldown_reduction() + Long.parseLong(temp.getCooldown_reduction());
                 stats.setCooldown_reduction(t);
@@ -376,42 +385,6 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 stats.setCost(t);
             }
 
-
-            /*if (temp.getCooldown_reduction() != null){
-                setComputation(temp.getCooldown_reduction(),binder.tv);
-
-            }
-            if (temp.getCrit_reduction() != null){
-                setComputation(temp.getCrit_reduction(),binder.tvAttackCrit);
-
-            }
-            if (temp.getDamage_to_monsters() != null){
-                setComputation(temp.getDamage_to_monsters(),binder.tvAttackCrit);
-
-            }*/
-            /*if (temp.getLifesteal() != null){
-                setComputation(temp.getLifesteal(),binder.li);
-
-            }*/
-            /*if (temp.getMagic_penetration() != null){
-                setComputation(temp.getMagic_penetration(),binder.tvAttackCrit);
-
-            }*/
-           /* if (temp.getPhysical_penetration() != null){
-                setComputation(temp.getPhysical_penetration(),binder.tvAttackCrit);
-
-            }*/
-            /*if (temp.getResilience() != null){
-                setComputation(temp.getResilience(),binder.tvAttackCrit);
-
-            }*/
-            /*if (temp.getSpell_vamp() != null){
-                setComputation(temp.getSpell_vamp(),binder.tvAttackCrit);
-
-            }*/
-           /* if (!item.getCost() != null){
-                 setComputation(temp.getCost(),binder.tvAttackCrit);
-            }*/
         }
 
         setHeroStats(hero, stats);
