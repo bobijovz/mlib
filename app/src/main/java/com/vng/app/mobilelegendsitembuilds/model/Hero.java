@@ -23,10 +23,19 @@ public class Hero implements Serializable, Parcelable {
     private long mana_regen;
     private long movement_speed;
     private long physical_attack;
+    private long cooldown_reduction;
+    private long crit_reduction;
+    private long damage_to_monsters;
+    private long lifesteal;
+    private long magic_penetration;
+    private long physical_penetration;
+    private long resilience;
+    private long spell_vamp;
+    private long cost;
     private String role;
     private String specialty;
 
-    public Hero(){
+    public Hero() {
 
     }
 
@@ -44,6 +53,15 @@ public class Hero implements Serializable, Parcelable {
         mana_regen = in.readLong();
         movement_speed = in.readLong();
         physical_attack = in.readLong();
+        cooldown_reduction = in.readLong();
+        crit_reduction = in.readLong();
+        damage_to_monsters = in.readLong();
+        lifesteal = in.readLong();
+        magic_penetration = in.readLong();
+        physical_penetration = in.readLong();
+        resilience = in.readLong();
+        spell_vamp = in.readLong();
+        cost = in.readLong();
         role = in.readString();
         specialty = in.readString();
     }
@@ -86,6 +104,15 @@ public class Hero implements Serializable, Parcelable {
         dest.writeLong(mana_regen);
         dest.writeLong(movement_speed);
         dest.writeLong(physical_attack);
+        dest.writeLong(cooldown_reduction);
+        dest.writeLong(crit_reduction);
+        dest.writeLong(damage_to_monsters);
+        dest.writeLong(lifesteal);
+        dest.writeLong(magic_penetration);
+        dest.writeLong(physical_penetration);
+        dest.writeLong(resilience);
+        dest.writeLong(spell_vamp);
+        dest.writeLong(cost);
         dest.writeString(role);
         dest.writeString(specialty);
     }
@@ -221,6 +248,82 @@ public class Hero implements Serializable, Parcelable {
 
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
+    }
+
+    public long getCooldown_reduction() {
+        return cooldown_reduction;
+    }
+
+    public void setCooldown_reduction(long cooldown_reduction) {
+        this.cooldown_reduction = cooldown_reduction;
+    }
+
+    public long getCrit_reduction() {
+        return crit_reduction;
+    }
+
+    public void setCrit_reduction(long crit_reduction) {
+        this.crit_reduction = crit_reduction;
+    }
+
+    public long getDamage_to_monsters() {
+        return damage_to_monsters;
+    }
+
+    public void setDamage_to_monsters(long damage_to_monsters) {
+        this.damage_to_monsters = damage_to_monsters;
+    }
+
+    public long getLifesteal() {
+        return lifesteal;
+    }
+
+    public void setLifesteal(long lifesteal) {
+        this.lifesteal = lifesteal;
+    }
+
+    public long getMagic_penetration() {
+        return magic_penetration;
+    }
+
+    public void setMagic_penetration(long magic_penetration) {
+        this.magic_penetration = magic_penetration;
+    }
+
+    public long getPhysical_penetration() {
+        return physical_penetration;
+    }
+
+    public void setPhysical_penetration(long physical_penetration) {
+        this.physical_penetration = physical_penetration;
+    }
+
+    public long getResilience() {
+        return resilience;
+    }
+
+    public void setResilience(long resilience) {
+        this.resilience = resilience;
+    }
+
+    public long getSpell_vamp() {
+        return spell_vamp;
+    }
+
+    public void setSpell_vamp(long spell_vamp) {
+        this.spell_vamp = spell_vamp;
+    }
+
+    public long getCost() {
+        return cost;
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
+    }
+
+    public static Creator<Hero> getCREATOR() {
+        return CREATOR;
     }
 }
 
