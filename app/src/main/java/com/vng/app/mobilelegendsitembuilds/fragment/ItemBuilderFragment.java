@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -70,15 +69,15 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_item_builder, container, false);
-        ArrayList<String> itemList = new ArrayList<>();
-
-        for (int i = 0; i < items.size(); i++) {
-            itemList.add(items.get(i).getType());
-        }
-        ArrayAdapter itemAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, itemList);
-        itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binder.spinnerItemType.setAdapter(itemAdapter);
-        binder.spinnerItemType.setSelection(0);
+//        ArrayList<String> itemList = new ArrayList<>();
+//
+//        for (int i = 0; i < items.size(); i++) {
+//            itemList.add(items.get(i).getType());
+//        }
+//        ArrayAdapter itemAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, itemList);
+//        itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        binder.spinnerItemType.setAdapter(itemAdapter);
+//        binder.spinnerItemType.setSelection(0);
         return binder.getRoot();
     }
 
