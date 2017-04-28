@@ -1,13 +1,20 @@
 package com.vng.app.mobilelegendsitembuilds.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.ArraySet;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,14 +25,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.vng.app.mobilelegendsitembuilds.Constant;
 import com.vng.app.mobilelegendsitembuilds.R;
 import com.vng.app.mobilelegendsitembuilds.adapter.ImageAdapter;
+import com.vng.app.mobilelegendsitembuilds.adapter.StatsAdapter;
 import com.vng.app.mobilelegendsitembuilds.databinding.FragmentItemBuilderBinding;
 import com.vng.app.mobilelegendsitembuilds.model.Hero;
 import com.vng.app.mobilelegendsitembuilds.model.Item;
+import com.vng.app.mobilelegendsitembuilds.service.FloatingViewService;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -44,7 +55,9 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private ImageAdapter adapter;
     private ArrayList<String> itemTypes = new ArrayList<>();
     private ArrayList<Item> itemBuildSet = new ArrayList<>();
-    ImageAdapter.ItemAdapterListener itemListener;
+    private StatsAdapter statsAdapter;
+    private ImageAdapter.ItemAdapterListener itemListener;
+    private SharedPreferences sharedPreferences;
 
     public ItemBuilderFragment() {
     }
@@ -99,8 +112,11 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         binder.imageCurrentItem4.setOnClickListener(this);
         binder.imageCurrentItem5.setOnClickListener(this);
         binder.imageCurrentItem6.setOnClickListener(this);
+        binder.buttonUseBuild.setOnClickListener(this);
+        binder.buttonOpenBuild.setOnClickListener(this);
+        sharedPreferences = getContext().getSharedPreferences(Constant.MyPREFERENCES, Context.MODE_PRIVATE);
 
-        binder.textLabelAbilityCrit.setOnClickListener(this);
+        /*binder.textLabelAbilityCrit.setOnClickListener(this);
         binder.textLabelArmor.setOnClickListener(this);
         binder.textLabelAttackSpeed.setOnClickListener(this);
         binder.textLabelAttackCrit.setOnClickListener(this);
@@ -118,7 +134,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         binder.textLabelPhysicalPenetration.setOnClickListener(this);
         binder.textLabelResilience.setOnClickListener(this);
         binder.textLabelSpellVamp.setOnClickListener(this);
-        binder.textLabelCost.setOnClickListener(this);
+        binder.textLabelCost.setOnClickListener(this);*/
 
         Picasso.with(getContext())
                 .load(new File(getContext().getFilesDir(), hero.getName().concat(".png")))
@@ -161,27 +177,50 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     public void setHeroStats(Hero hero, Hero item) {
         binder.tvHealth.setText(String.valueOf(hero.getHp() + item.getHp()));
         binder.tvMana.setText(String.valueOf(hero.getMana() + item.getMana()));
-        binder.tvAbilityCrit.setText(String.valueOf(hero.getAbility_crit_rate() + item.getAbility_crit_rate()));
-        binder.tvArmor.setText(String.valueOf(hero.getArmor() + item.getArmor()));
-        binder.tvAttackSpeed.setText(String.valueOf(hero.getAttack_speed() + item.getAttack_speed()));
-        binder.tvAttackCrit.setText(String.valueOf(hero.getBasic_attack_crit_rate() + item.getBasic_attack_crit_rate()));
-        binder.tvHpRegen.setText(String.valueOf(hero.getHp_regen() + item.getHp_regen()));
-        binder.tvMagicPower.setText(String.valueOf(hero.getMagic_power() + item.getMagic_power()));
-        binder.tvMagicResist.setText(String.valueOf(hero.getMagic_resistance() + item.getMagic_resistance()));
-        binder.tvManaRegen.setText(String.valueOf(hero.getMana_regen() + item.getMana_regen()));
-        binder.tvMoveSpeed.setText(String.valueOf(hero.getMovement_speed() + item.getMovement_speed()));
-        binder.tvPhysicalAttack.setText(String.valueOf(hero.getPhysical_attack() + item.getPhysical_attack()));
+        statsAdapter = new StatsAdapter(getContext());
 
+        if (hero.getAbility_crit_rate() + item.getAbility_crit_rate() != 0)
+            statsAdapter.addValue("Ability Crit :", String.valueOf(hero.getAbility_crit_rate() + item.getAbility_crit_rate()));
+        if (hero.getArmor() + item.getArmor() != 0)
+            statsAdapter.addValue("Armor :", String.valueOf(hero.getArmor() + item.getArmor()));
+        if (hero.getAttack_speed() + item.getAttack_speed() != 0)
+            statsAdapter.addValue("Attack Speed :", String.valueOf(hero.getAttack_speed() + item.getAttack_speed()));
+        if (hero.getBasic_attack_crit_rate() + item.getBasic_attack_crit_rate() != 0)
+            statsAdapter.addValue("Attack Crit :", String.valueOf(hero.getBasic_attack_crit_rate() + item.getBasic_attack_crit_rate()));
+        if (hero.getHp_regen() + item.getHp_regen() != 0)
+            statsAdapter.addValue("Hp Regen :", String.valueOf(hero.getHp_regen() + item.getHp_regen()));
+        if (hero.getMagic_power() + item.getMagic_power() != 0)
+            statsAdapter.addValue("Magic Power :", String.valueOf(hero.getMagic_power() + item.getMagic_power()));
+        if (hero.getMagic_resistance() + item.getMagic_resistance() != 0)
+            statsAdapter.addValue("Magic Resist :", String.valueOf(hero.getMagic_resistance() + item.getMagic_resistance()));
+        if (hero.getMana_regen() + item.getMana_regen() != 0)
+            statsAdapter.addValue("Mana Regen :", String.valueOf(hero.getMana_regen() + item.getMana_regen()));
+        if (hero.getMovement_speed() + item.getMovement_speed() != 0)
+            statsAdapter.addValue("Move Speed :", String.valueOf(hero.getMovement_speed() + item.getMovement_speed()));
+        if (hero.getPhysical_attack() + item.getPhysical_attack() != 0)
+            statsAdapter.addValue("Physical Atk :", String.valueOf(hero.getPhysical_attack() + item.getPhysical_attack()));
+        if (hero.getCooldown_reduction() + item.getCooldown_reduction() != 0)
+            statsAdapter.addValue("Cooldown Rdc :", String.valueOf(hero.getCooldown_reduction() + item.getCooldown_reduction()));
+        if (hero.getCrit_reduction() + item.getCrit_reduction() != 0)
+            statsAdapter.addValue("Crit Reduct :", String.valueOf(hero.getCrit_reduction() + item.getCrit_reduction()));
+        if (hero.getDamage_to_monsters() + item.getDamage_to_monsters() != 0)
+            statsAdapter.addValue("Dmg Monster :", String.valueOf(hero.getDamage_to_monsters() + item.getDamage_to_monsters()));
+        if (hero.getLifesteal() + item.getLifesteal() != 0)
+            statsAdapter.addValue("Lifesteal :", String.valueOf(hero.getLifesteal() + item.getLifesteal()));
+        if (hero.getMagic_penetration() + item.getMagic_penetration() != 0)
+            statsAdapter.addValue("M Penetarte :", String.valueOf(hero.getMagic_penetration() + item.getMagic_penetration()));
+        if (hero.getPhysical_penetration() + item.getPhysical_penetration() != 0)
+            statsAdapter.addValue("P Penetrate :", String.valueOf(hero.getPhysical_penetration() + item.getPhysical_penetration()));
+        if (hero.getResilience() + item.getResilience() != 0)
+            statsAdapter.addValue("Resilience :", String.valueOf(hero.getResilience() + item.getResilience()));
+        if (hero.getSpell_vamp() + item.getSpell_vamp() != 0)
+            statsAdapter.addValue("Spell Vamp :", String.valueOf(hero.getSpell_vamp() + item.getSpell_vamp()));
+        if (hero.getCost() + item.getCost() != 0)
+            statsAdapter.addValue("Total Cost :", String.valueOf(hero.getCost() + item.getCost()));
 
-        binder.tvCooldownReduction.setText(String.valueOf(hero.getCooldown_reduction() + item.getCooldown_reduction()));
-        binder.tvCritReduction.setText(String.valueOf(hero.getCrit_reduction() + item.getCrit_reduction()));
-        binder.tvDamageToMonsters.setText(String.valueOf(hero.getDamage_to_monsters() + item.getDamage_to_monsters()));
-        binder.tvLifesteal.setText(String.valueOf(hero.getLifesteal() + item.getLifesteal()));
-        binder.tvMagicPenetration.setText(String.valueOf(hero.getMagic_penetration() + item.getMagic_penetration()));
-        binder.tvPhysicalPenetration.setText(String.valueOf(hero.getPhysical_penetration() + item.getPhysical_penetration()));
-        binder.tvResilience.setText(String.valueOf(hero.getResilience() + item.getResilience()));
-        binder.tvSpellVamp.setText(String.valueOf(hero.getSpell_vamp() + item.getSpell_vamp()));
-        binder.tvTotalCost.setText(String.valueOf(hero.getCost() + item.getCost()));
+        binder.gridlayoutStatsContainer.setAdapter(statsAdapter);
+        binder.gridlayoutStatsContainer.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        statsAdapter.notifyDataSetChanged();
     }
 
     public void onItemSelected(int i) {
@@ -219,7 +258,54 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
                 onItemSelected(5);
                 break;
 
-            case R.id.text_label_ability_crit:
+            case R.id.button_open_build:
+                if (itemBuildSet.size() == 6) {
+                    Intent i = new Intent(getActivity(), FloatingViewService.class);
+                    i.putParcelableArrayListExtra("BUILD_SET", itemBuildSet);
+                    getActivity().startService(i);
+                } else {
+                    Toast.makeText(getContext(), "Error, Item build incomplete!", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.button_use_build:
+                if (itemBuildSet.size() == 6) {
+
+                    //TODO save item build in firebase
+                    //1. Ask build unique title
+                    //2. Save in firebase use this json format as ref :
+                    //builds {
+                    //      userid123 : {
+                    //          build_name123: {
+                    //              name : buildename123,
+                    //              items : {item array here},
+                    //              public : true/false(Optional nalang kung gusto mo lagyan neto)
+                    //          },
+                    //          build_name1234: {
+                    //              name: buildname1234,
+                    //              items : {item array here},
+                    //              public : false(Optional nalang kung gusto mo lagyan neto)
+                    //          }
+                    //      },
+                    //      userid321: {.........}
+                    //}
+
+                    //TEMPORARY SHARED PREF SAVING
+                    String buildSet = "";
+                    for (Item item : itemBuildSet) {
+                        buildSet += item.getName().concat(",");
+                    }
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(Constant.BuildOneValues, buildSet);
+                    editor.apply();
+                } else {
+                    Toast.makeText(getContext(), "Error, Item build incomplete!", Toast.LENGTH_SHORT).show();
+                }
+
+
+                break;
+
+            /*case R.id.text_label_ability_crit:
                 Toast.makeText(getContext(), "Ability Crit", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -293,7 +379,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
 
             case R.id.text_label_cost:
                 Toast.makeText(getContext(), "TOTAL COST", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
 
         }
     }

@@ -27,7 +27,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/messenger_button_send_round_shadow"
+                    android:src="@drawable/ic_open_in_new_black_24dp"
+                    app:civ_fill_color="@android:color/white"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="2dp" />
 

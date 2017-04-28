@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArraySet;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+import com.vng.app.mobilelegendsitembuilds.Constant;
 import com.vng.app.mobilelegendsitembuilds.R;
 import com.vng.app.mobilelegendsitembuilds.databinding.FragmentWidgetBinding;
 import com.vng.app.mobilelegendsitembuilds.service.FloatingViewService;
+
+import java.io.File;
+import java.util.Set;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -34,10 +40,6 @@ public class WidgetFragment extends Fragment {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private FragmentWidgetBinding binder;
 
-    public static final String MyPREFERENCES = "MyPrefs";
-    public static final String BuildOne = "buildOneKey";
-    public static final String BuildTwo = "buildTwoKey";
-    public static final String BuildThree = "buildThreeKey";
 
     SharedPreferences sharedpreferences;
 
@@ -60,10 +62,44 @@ public class WidgetFragment extends Fragment {
     }
 
     private void initializeView() {
-        sharedpreferences = getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        binder.textReservedBuild1.setText(sharedpreferences.getString(BuildOne, "Reserved Build One"));
-        binder.textReservedBuild2.setText(sharedpreferences.getString(BuildTwo, "Reserved Build Two"));
-        binder.textReservedBuild3.setText(sharedpreferences.getString(BuildThree, "Reserved Build Three"));
+        sharedpreferences = getContext().getSharedPreferences(Constant.MyPREFERENCES, Context.MODE_PRIVATE);
+        binder.textReservedBuild1.setText(sharedpreferences.getString(Constant.BuildOneTitle, "Reserved Build One"));
+        binder.textReservedBuild2.setText(sharedpreferences.getString(Constant.BuildTwoTitle, "Reserved Build Two"));
+        binder.textReservedBuild3.setText(sharedpreferences.getString(Constant.BuildThreeTitle, "Reserved Build Three"));
+        String[] build1 = sharedpreferences.getString(Constant.BuildOneValues, ",,,,,").split(",");
+        //TODO add adapter for builds collection
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[0].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem1);
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[1].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem2);
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[2].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem3);
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[3].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem4);
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[4].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem5);
+        Picasso.with(getContext())
+                .load(new File(getContext().getFilesDir(), build1[5].concat(".png")))
+                .fit()
+                .centerCrop()
+                .into(binder.imageFirstReservedItem6);
+
+
         binder.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +142,7 @@ public class WidgetFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         binder.textReservedBuild1.setText(input.getText().toString());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(BuildOne, binder.textReservedBuild1.getText().toString());
+                        editor.putString(Constant.BuildOneTitle, binder.textReservedBuild1.getText().toString());
                         editor.apply();
                         Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
                     }
@@ -136,7 +172,7 @@ public class WidgetFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         binder.textReservedBuild2.setText(input.getText().toString());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(BuildTwo, binder.textReservedBuild2.getText().toString());
+                        editor.putString(Constant.BuildTwoTitle, binder.textReservedBuild2.getText().toString());
                         editor.apply();
                         Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
                     }
@@ -167,7 +203,7 @@ public class WidgetFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         binder.textReservedBuild3.setText(input.getText().toString());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(BuildThree, binder.textReservedBuild3.getText().toString());
+                        editor.putString(Constant.BuildThreeTitle, binder.textReservedBuild3.getText().toString());
                         editor.apply();
                         Toast.makeText(getContext(), "Name changed", Toast.LENGTH_LONG).show();
                     }

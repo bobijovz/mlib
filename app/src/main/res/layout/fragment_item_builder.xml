@@ -26,19 +26,29 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_use_build"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_above="@+id/linear_first_container"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/button_transparent_selector"
-                android:drawableLeft="@drawable/ic_save_white_24dp"
+                android:src="@drawable/ic_save_white_24dp"
                 android:padding="10dp"
-                android:text="SAVE"
-                android:textColor="@color/colorLight" />
+                 />
+
+            <ImageButton
+                android:id="@+id/button_open_build"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/linear_first_container"
+                android:layout_toLeftOf="@id/button_use_build"
+                android:background="@drawable/button_transparent_selector"
+                android:src="@drawable/ic_widgets_white_24dp"
+                android:padding="10dp"
+                 />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageview_item"
@@ -125,16 +135,18 @@
                 android:id="@+id/scrollView_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/linearlayout_item_build_container"
-                android:layout_alignLeft="@+id/imageview_item"
-                android:layout_alignRight="@+id/linearlayout_item_build_container"
-                android:layout_alignStart="@+id/imageview_item"
                 android:layout_below="@id/imageview_item"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp">
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/gridlayout_stats_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+
+                <!--<LinearLayout
                     android:id="@+id/linearlayout_stats_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -521,7 +533,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </LinearLayout>-->
             </HorizontalScrollView>
 
             <LinearLayout
