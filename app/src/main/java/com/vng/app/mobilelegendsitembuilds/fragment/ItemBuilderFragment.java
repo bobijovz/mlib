@@ -1,20 +1,18 @@
 package com.vng.app.mobilelegendsitembuilds.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.ArraySet;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,7 +34,6 @@ import com.vng.app.mobilelegendsitembuilds.service.FloatingViewService;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +55,7 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
     private StatsAdapter statsAdapter;
     private ImageAdapter.ItemAdapterListener itemListener;
     private SharedPreferences sharedPreferences;
+    public final static int REQUEST_CODE = 123;
 
     public ItemBuilderFragment() {
     }
@@ -260,9 +258,14 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
 
             case R.id.button_open_build:
                 if (itemBuildSet.size() == 6) {
-                    Intent i = new Intent(getActivity(), FloatingViewService.class);
-                    i.putParcelableArrayListExtra("BUILD_SET", itemBuildSet);
-                    getActivity().startService(i);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        checkDrawOverlayPermission();
+                    } else {
+                        Intent i = new Intent(getActivity(), FloatingViewService.class);
+                        i.putParcelableArrayListExtra("BUILD_SET", itemBuildSet);
+                        getActivity().startService(i);
+                    }
+
                 } else {
                     Toast.makeText(getContext(), "Error, Item build incomplete!", Toast.LENGTH_SHORT).show();
                 }
@@ -572,5 +575,33 @@ public class ItemBuilderFragment extends Fragment implements View.OnClickListene
         }
 
         setHeroStats(hero, stats);
+    }
+
+    public void checkDrawOverlayPermission() {
+        /** check if we already  have permission to draw over other apps */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(getContext())) {
+                /** if not construct intent to request permission */
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getActivity().getPackageName()));
+                /** request permission via start activity for result */
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /** check if received result code
+         is equal our requested code for draw permission  */
+        if (requestCode == REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(getContext())) {
+                    Intent i = new Intent(getActivity(), FloatingViewService.class);
+                    i.putParcelableArrayListExtra("BUILD_SET", itemBuildSet);
+                    getActivity().startService(i);
+                }
+            }
+        }
     }
 }
